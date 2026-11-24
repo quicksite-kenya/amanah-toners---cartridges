@@ -1,0 +1,851 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { IMAGE_DIMENSIONS } from '../../data/products';
+
+export const prerender = false;
+
+const assetPaths = Object.keys(IMAGE_DIMENSIONS);
+---
+
+<Layout title="Admin Portal — Amanah Toners & Cartridges" noindex={true}>
+  <Header slot="header" />
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <Breadcrumb items={[
+      { name: 'Admin Portal' }
+    ]} />
+    <h1 class="sr-only">Amanah Admin Portal</h1>
+  </div>
+
+  <div id="admin-root" data-assets={JSON.stringify(assetPaths)}>
+    <div class="max-w-md mx-auto px-4 py-20 text-center text-xs font-bold text-slate-400 uppercase tracking-widest">
+      Verifying admin session...
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script>
+  interface ProductItem {
+    id: string;
+    slug: string;
+    brand: string;
+    model: string;
+    category: string;
+    partNumber?: string;
+    compatiblePrinters?: string;
+    imageUrl: string;
+    description: string;
+    stock: number;
+    inquiryOnly: boolean;
+  }
+
+  interface AdminStatus {
+    envConfigured: boolean;
+    needsSetup: boolean;
+    authenticated: boolean;
+  }
+
+  const rootEl = document.getElementById('admin-root');
+  const availableAssets: string[] = (() => {
+    try {
+      const parsed = JSON.parse(rootEl?.getAttribute('data-assets') || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  })();
+
+  let authToken: string | null = null;
+  let adminStatus: AdminStatus = { envConfigured: false, needsSetup: false, authenticated: false };
+  let products: ProductItem[] = [];
+  let searchTerm = '';
+  let editingProduct: ProductItem | null = null;
+  let deletingProduct: ProductItem | null = null;
+  let isModalOpen = false;
+  let statusBannerMsg = '';
+  let statusBannerIsError = false;
+
+  function safeAssetUrl(url: string | undefined): string {
+    if (typeof url !== 'string') return '/logo.png';
+    const trimmed = url.trim();
+    if (trimmed === '/logo.png') return trimmed;
+    if (/^\/assets\/[a-zA-Z0-9._/-]+$/.test(trimmed) && !trimmed.includes('..')) {
+      return trimmed;
+    }
+    return '/logo.png';
+  }
+
+  function el<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    className?: string,
+    text?: string
+  ): HTMLElementTagNameMap[K] {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function createSvg(pathDefs: string[], className: string): SVGSVGElement {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', className);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    for (const d of pathDefs) {
+      const p = document.createElementNS(ns, 'path');
+      p.setAttribute('stroke-linecap', 'round');
+      p.setAttribute('stroke-linejoin', 'round');
+      p.setAttribute('stroke-width', '2');
+      p.setAttribute('d', d);
+      svg.appendChild(p);
+    }
+    return svg;
+  }
+
+  async function fetchStatusAndBoot() {
+    try {
+      const res = await fetch('/api/admin/status', {
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+      });
+      if (res.ok) {
+        adminStatus = (await res.json()) as AdminStatus;
+      }
+    } catch (err) {
+      console.error('Failed to check admin status', err);
+    }
+    render();
+  }
+
+  async function fetchProducts() {
+    const res = await fetch('/api/products', { cache: 'no-store' });
+    if (res.ok) {
+      const data = (await res.json()) as { products: ProductItem[] };
+      products = Array.isArray(data.products) ? data.products : [];
+    }
+  }
+
+  function renderAuthScreen(root: HTMLElement) {
+    const outer = el('div', 'max-w-md mx-auto px-4 py-16 sm:py-24');
+    const card = el('div', 'bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border-t-4 border-[#0B2046]');
+
+    const header = el('div', 'text-center mb-8');
+    const iconBox = el('div', 'w-16 h-16 bg-[#0B2046]/5 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#0B2046]');
+    iconBox.appendChild(
+      createSvg(['M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'], 'w-8 h-8')
+    );
+
+    const heading = el(
+      'h2',
+      'text-2xl font-black text-[#0B2046] uppercase',
+      adminStatus.needsSetup ? 'Initialize Admin Portal' : 'Admin Portal'
+    );
+    const sub = el(
+      'p',
+      'text-xs text-slate-400 font-bold uppercase tracking-widest mt-1',
+      adminStatus.needsSetup ? 'Create Initial Admin Password' : 'Authorized Personnel Only'
+    );
+    header.append(iconBox, heading, sub);
+
+    const form = el('form', 'space-y-6');
+    const errP = el('p', 'text-red-600 text-xs font-bold hidden');
+    errP.setAttribute('role', 'alert');
+
+    if (adminStatus.needsSetup) {
+      const info = el(
+        'p',
+        'text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200',
+        'No server passcode is configured yet. Set a strong admin password (minimum 8 characters) to claim portal access, or configure ADMIN_PASSCODE in server environment settings.'
+      );
+      form.appendChild(info);
+
+      const passWrap = el('div');
+      const passLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'New Admin Password *');
+      passLabel.htmlFor = 'setup-pass';
+      const passInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      passInput.type = 'password';
+      passInput.id = 'setup-pass';
+      passInput.required = true;
+      passInput.minLength = 8;
+      passInput.autocomplete = 'new-password';
+      passInput.placeholder = 'Minimum 8 characters';
+      passWrap.append(passLabel, passInput);
+
+      const confirmWrap = el('div');
+      const confirmLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Confirm Password *');
+      confirmLabel.htmlFor = 'setup-pass-confirm';
+      const confirmInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      confirmInput.type = 'password';
+      confirmInput.id = 'setup-pass-confirm';
+      confirmInput.required = true;
+      confirmInput.minLength = 8;
+      confirmInput.autocomplete = 'new-password';
+      confirmInput.placeholder = 'Repeat password';
+      confirmWrap.append(confirmLabel, confirmInput);
+
+      const submitBtn = el(
+        'button',
+        'w-full bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer',
+        'Create Admin Access'
+      );
+      submitBtn.type = 'submit';
+
+      form.append(passWrap, confirmWrap, errP, submitBtn);
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pw = passInput.value;
+        const confirmPw = confirmInput.value;
+        if (pw.length < 8) {
+          errP.textContent = 'Password must be at least 8 characters.';
+          errP.classList.remove('hidden');
+          return;
+        }
+        if (pw !== confirmPw) {
+          errP.textContent = 'Passwords do not match.';
+          errP.classList.remove('hidden');
+          return;
+        }
+
+        errP.classList.add('hidden');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Initializing...';
+
+        try {
+          const res = await fetch('/api/admin/setup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pw }),
+          });
+          const data = (await res.json()) as { token?: string; error?: string };
+          if (!res.ok || !data.token) {
+            errP.textContent = data.error || 'Unable to configure admin password.';
+            errP.classList.remove('hidden');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Admin Access';
+            return;
+          }
+          authToken = data.token;
+          adminStatus.needsSetup = false;
+          adminStatus.authenticated = true;
+          await fetchProducts();
+          render();
+        } catch {
+          errP.textContent = 'Network error. Please try again.';
+          errP.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Admin Access';
+        }
+      });
+    } else {
+      const passWrap = el('div');
+      const passLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Admin Password');
+      passLabel.htmlFor = 'admin-pass';
+      const passInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      passInput.type = 'password';
+      passInput.id = 'admin-pass';
+      passInput.required = true;
+      passInput.autocomplete = 'current-password';
+      passInput.placeholder = 'Enter admin password';
+      passWrap.append(passLabel, passInput);
+
+      const submitBtn = el(
+        'button',
+        'w-full bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer',
+        'Secure Login'
+      );
+      submitBtn.type = 'submit';
+
+      form.append(passWrap, errP, submitBtn);
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pw = passInput.value;
+        errP.classList.add('hidden');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verifying...';
+
+        try {
+          const res = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pw }),
+          });
+          const data = (await res.json()) as { token?: string; error?: string; needsSetup?: boolean };
+          if (!res.ok || !data.token) {
+            if (data.needsSetup) {
+              adminStatus.needsSetup = true;
+              render();
+              return;
+            }
+            errP.textContent = data.error || 'Incorrect password. Please try again.';
+            errP.classList.remove('hidden');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Secure Login';
+            return;
+          }
+          authToken = data.token;
+          adminStatus.authenticated = true;
+          await fetchProducts();
+          render();
+        } catch {
+          errP.textContent = 'Network error. Please try again.';
+          errP.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Secure Login';
+        }
+      });
+    }
+
+    const backWrap = el('div', 'mt-8 pt-6 border-t border-slate-100 text-center');
+    const backLink = el('a', 'text-xs font-bold text-slate-400 hover:text-[#0B2046] uppercase tracking-widest transition-colors', '\u2190 Back to Website');
+    backLink.href = '/';
+    backWrap.appendChild(backLink);
+
+    card.append(header, form, backWrap);
+    outer.appendChild(card);
+    root.replaceChildren(outer);
+  }
+
+  function getFilteredProducts(): ProductItem[] {
+    const q = searchTerm.toLowerCase().trim();
+    if (!q) return products;
+    return products.filter(
+      (p) =>
+        p.model.toLowerCase().includes(q) ||
+        p.brand.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.partNumber && p.partNumber.toLowerCase().includes(q))
+    );
+  }
+
+  function renderTableRows(tbody: HTMLElement, countContainer: HTMLElement) {
+    const filtered = getFilteredProducts();
+
+    const showingLabel = el('span', undefined, 'Showing: ');
+    showingLabel.appendChild(el('strong', 'text-[#0B2046]', String(filtered.length)));
+    showingLabel.append(' of ');
+    showingLabel.appendChild(el('strong', 'text-[#0B2046]', String(products.length)));
+    showingLabel.append(' items');
+    countContainer.replaceChildren(showingLabel);
+
+    const rows: HTMLTableRowElement[] = [];
+
+    for (const p of filtered) {
+      const tr = el('tr', 'hover:bg-slate-50 transition-colors');
+
+      // Product Info cell
+      const tdInfo = el('td', 'px-6 py-4 whitespace-nowrap');
+      const flexInfo = el('div', 'flex items-center');
+      const thumbWrap = el('div', 'h-12 w-12 flex-shrink-0 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden border border-slate-100 p-1');
+      const img = el('img', 'h-full w-full object-contain');
+      img.src = safeAssetUrl(p.imageUrl);
+      img.alt = p.model;
+      img.width = 48;
+      img.height = 48;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      thumbWrap.appendChild(img);
+
+      const textCol = el('div', 'ml-4');
+      textCol.appendChild(el('div', 'text-sm font-black text-[#0B2046] uppercase', p.model));
+      textCol.appendChild(
+        el(
+          'div',
+          'text-xs font-bold text-slate-400 uppercase tracking-wider',
+          `${p.brand}${p.partNumber ? ' • ' + p.partNumber : ''}`
+        )
+      );
+      flexInfo.append(thumbWrap, textCol);
+      tdInfo.appendChild(flexInfo);
+
+      // Category cell
+      const tdCat = el('td', 'px-6 py-4 whitespace-nowrap');
+      tdCat.appendChild(el('span', 'text-xs font-bold text-slate-700', p.category));
+
+      // Stock cell
+      const tdStock = el('td', 'px-6 py-4 whitespace-nowrap');
+      tdStock.appendChild(
+        el(
+          'span',
+          `text-xs font-black ${p.stock > 10 ? 'text-emerald-700' : 'text-amber-700'}`,
+          `${p.stock} units`
+        )
+      );
+
+      // Actions cell
+      const tdActions = el('td', 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3');
+
+      const editBtn = el('button', 'text-[#0B2046] hover:text-[#15346B] font-black text-xs uppercase cursor-pointer', 'Edit');
+      editBtn.type = 'button';
+      editBtn.setAttribute('aria-label', `Edit ${p.model}`);
+      editBtn.addEventListener('click', () => {
+        editingProduct = p;
+        isModalOpen = true;
+        render();
+      });
+
+      const delBtn = el('button', 'text-red-600 hover:text-red-900 font-black text-xs uppercase cursor-pointer', 'Delete');
+      delBtn.type = 'button';
+      delBtn.setAttribute('aria-label', `Delete ${p.model}`);
+      delBtn.addEventListener('click', () => {
+        deletingProduct = p;
+        render();
+      });
+
+      tdActions.append(editBtn, delBtn);
+      tr.append(tdInfo, tdCat, tdStock, tdActions);
+      rows.push(tr);
+    }
+
+    if (rows.length === 0) {
+      const emptyTr = el('tr');
+      const emptyTd = el(
+        'td',
+        'px-6 py-12 text-center text-slate-500 font-bold uppercase text-xs tracking-wider',
+        'No matching products found in inventory.'
+      );
+      emptyTd.colSpan = 4;
+      emptyTr.appendChild(emptyTd);
+      rows.push(emptyTr);
+    }
+
+    tbody.replaceChildren(...rows);
+  }
+
+  function renderProductModal(): HTMLElement {
+    const overlay = el('div', 'fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'product-modal-title');
+
+    const dialog = el('div', 'bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative border-t-4 border-[#E4A025] my-8');
+
+    const closeBtn = el('button', 'absolute top-6 right-6 text-slate-400 hover:text-slate-600 cursor-pointer');
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label', 'Close product modal');
+    closeBtn.appendChild(createSvg(['M6 18L18 6M6 6l12 12'], 'w-6 h-6'));
+    closeBtn.addEventListener('click', () => {
+      isModalOpen = false;
+      editingProduct = null;
+      render();
+    });
+
+    const heading = el(
+      'h2',
+      'text-2xl font-black text-[#0B2046] uppercase mb-6',
+      editingProduct ? 'Edit Product' : 'Add New Product'
+    );
+    heading.id = 'product-modal-title';
+
+    const form = el('form', 'space-y-6');
+    const grid = el('div', 'grid grid-cols-1 md:grid-cols-2 gap-6');
+
+    // Brand select
+    const brandWrap = el('div');
+    const brandLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Brand *');
+    brandLabel.htmlFor = 'form-brand';
+    const brandSelect = el('select', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    brandSelect.id = 'form-brand';
+    brandSelect.required = true;
+    const brandChoices = ['HP', 'Canon', 'Kyocera', 'Konica Minolta'];
+    if (editingProduct && !brandChoices.includes(editingProduct.brand)) {
+      brandChoices.push(editingProduct.brand);
+    }
+    for (const b of brandChoices) {
+      const opt = el('option', undefined, b);
+      opt.value = b;
+      if (editingProduct?.brand === b) opt.selected = true;
+      brandSelect.appendChild(opt);
+    }
+    brandWrap.append(brandLabel, brandSelect);
+
+    // Model input
+    const modelWrap = el('div');
+    const modelLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Model Name *');
+    modelLabel.htmlFor = 'form-model';
+    const modelInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    modelInput.id = 'form-model';
+    modelInput.type = 'text';
+    modelInput.required = true;
+    modelInput.placeholder = 'e.g. LaserJet 59A Black';
+    modelInput.value = editingProduct?.model || '';
+    modelWrap.append(modelLabel, modelInput);
+
+    // Part Number input
+    const partWrap = el('div');
+    const partLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Part Number / Cartridge Code');
+    partLabel.htmlFor = 'form-part';
+    const partInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    partInput.id = 'form-part';
+    partInput.type = 'text';
+    partInput.placeholder = 'e.g. CF259A';
+    partInput.value = editingProduct?.partNumber || '';
+    partWrap.append(partLabel, partInput);
+
+    // Stock input
+    const stockWrap = el('div');
+    const stockLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Stock Level *');
+    stockLabel.htmlFor = 'form-stock';
+    const stockInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    stockInput.id = 'form-stock';
+    stockInput.type = 'number';
+    stockInput.min = '0';
+    stockInput.required = true;
+    stockInput.value = String(editingProduct ? editingProduct.stock : 25);
+    stockWrap.append(stockLabel, stockInput);
+
+    grid.append(brandWrap, modelWrap, partWrap, stockWrap);
+
+    // Category select
+    const catWrap = el('div');
+    const catLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Category *');
+    catLabel.htmlFor = 'form-category';
+    const catSelect = el('select', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    catSelect.id = 'form-category';
+    for (const c of ['Toner Cartridges', 'Ink Cartridges', 'Printers', 'Printer Accessories']) {
+      const opt = el('option', undefined, c);
+      opt.value = c;
+      if (editingProduct?.category === c) opt.selected = true;
+      catSelect.appendChild(opt);
+    }
+    catWrap.append(catLabel, catSelect);
+
+    // Compatible printers
+    const printersWrap = el('div');
+    const printersLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Compatible Printers');
+    printersLabel.htmlFor = 'form-printers';
+    const printersInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    printersInput.id = 'form-printers';
+    printersInput.type = 'text';
+    printersInput.placeholder = 'e.g. HP LaserJet Pro M404, M428';
+    printersInput.value = editingProduct?.compatiblePrinters || '';
+    printersWrap.append(printersLabel, printersInput);
+
+    // Description
+    const descWrap = el('div');
+    const descLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Description');
+    descLabel.htmlFor = 'form-desc';
+    const descInput = el('textarea', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    descInput.id = 'form-desc';
+    descInput.rows = 3;
+    descInput.placeholder = 'Product details, page yield, and specs...';
+    descInput.value = editingProduct?.description || '';
+    descWrap.append(descLabel, descInput);
+
+    // Image path + datalist
+    const imgWrap = el('div');
+    const imgLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Image Path (Local /assets/... or /logo.png)');
+    imgLabel.htmlFor = 'form-image';
+    const imgInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    imgInput.id = 'form-image';
+    imgInput.type = 'text';
+    imgInput.setAttribute('list', 'amanah-image-options');
+    imgInput.value =
+      editingProduct?.imageUrl ||
+      '/assets/aistudio/WhatsApp_Image_2026-11-17_at_11.40.28_6b205af5.jpeg';
+
+    const datalist = el('datalist');
+    datalist.id = 'amanah-image-options';
+    for (const p of availableAssets) {
+      const opt = el('option');
+      opt.value = p;
+      datalist.appendChild(opt);
+    }
+    imgWrap.append(imgLabel, imgInput, datalist);
+
+    const modalErr = el('p', 'hidden text-red-600 text-xs font-bold');
+    modalErr.setAttribute('role', 'alert');
+
+    const footerActions = el('div', 'flex justify-end space-x-4 pt-4 border-t border-slate-100');
+    const cancelBtn = el('button', 'px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black rounded-xl uppercase text-xs tracking-wider cursor-pointer', 'Cancel');
+    cancelBtn.type = 'button';
+    cancelBtn.addEventListener('click', () => {
+      isModalOpen = false;
+      editingProduct = null;
+      render();
+    });
+
+    const saveBtn = el('button', 'px-8 py-3 bg-[#0B2046] hover:bg-[#15346B] text-white font-black rounded-xl uppercase text-xs tracking-[0.2em] shadow-xl cursor-pointer', 'Save Product');
+    saveBtn.type = 'submit';
+    footerActions.append(cancelBtn, saveBtn);
+
+    form.append(grid, catWrap, printersWrap, descWrap, imgWrap, modalErr, footerActions);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!authToken) {
+        isModalOpen = false;
+        render();
+        return;
+      }
+
+      modalErr.classList.add('hidden');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const payload = {
+        brand: brandSelect.value.trim(),
+        model: modelInput.value.trim(),
+        partNumber: partInput.value.trim(),
+        stock: Number.parseInt(stockInput.value, 10),
+        category: catSelect.value,
+        compatiblePrinters: printersInput.value.trim(),
+        description: descInput.value.trim(),
+        imageUrl: imgInput.value.trim(),
+      };
+
+      const targetUrl = editingProduct ? `/api/products/${encodeURIComponent(editingProduct.id)}` : '/api/products';
+      const method = editingProduct ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(targetUrl, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.status === 401) {
+          authToken = null;
+          adminStatus.authenticated = false;
+          isModalOpen = false;
+          editingProduct = null;
+          render();
+          return;
+        }
+
+        const data = (await res.json()) as { error?: string };
+        if (!res.ok) {
+          modalErr.textContent = data.error || 'Could not save product.';
+          modalErr.classList.remove('hidden');
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save Product';
+          return;
+        }
+
+        statusBannerMsg = editingProduct ? `Updated "${payload.model}" across the live store.` : `Added "${payload.model}" to the live store.`;
+        statusBannerIsError = false;
+        isModalOpen = false;
+        editingProduct = null;
+        await fetchProducts();
+        render();
+      } catch {
+        modalErr.textContent = 'Network error while saving product.';
+        modalErr.classList.remove('hidden');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Product';
+      }
+    });
+
+    dialog.append(closeBtn, heading, form);
+    overlay.appendChild(dialog);
+    return overlay;
+  }
+
+  function renderDeleteModal(item: ProductItem): HTMLElement {
+    const overlay = el('div', 'fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'delete-modal-title');
+
+    const dialog = el('div', 'bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border-t-4 border-red-600');
+    const heading = el('h2', 'text-xl font-black text-[#0B2046] uppercase mb-3', 'Confirm Product Removal');
+    heading.id = 'delete-modal-title';
+
+    const copy = el('p', 'text-xs text-slate-600 font-medium leading-relaxed mb-6');
+    copy.append('Are you sure you want to permanently remove ');
+    copy.appendChild(el('strong', 'text-[#0B2046]', item.model));
+    copy.append(' from the live store inventory?');
+
+    const delErr = el('p', 'hidden text-red-600 text-xs font-bold mb-4');
+    delErr.setAttribute('role', 'alert');
+
+    const actions = el('div', 'flex justify-end space-x-3');
+    const cancelBtn = el('button', 'px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black rounded-xl uppercase text-xs tracking-wider cursor-pointer', 'Cancel');
+    cancelBtn.type = 'button';
+    cancelBtn.addEventListener('click', () => {
+      deletingProduct = null;
+      render();
+    });
+
+    const confirmBtn = el('button', 'px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl uppercase text-xs tracking-wider shadow-lg cursor-pointer', 'Delete Product');
+    confirmBtn.type = 'button';
+    confirmBtn.addEventListener('click', async () => {
+      if (!authToken) return;
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = 'Deleting...';
+
+      try {
+        const res = await fetch(`/api/products/${encodeURIComponent(item.id)}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+        if (res.status === 401) {
+          authToken = null;
+          adminStatus.authenticated = false;
+          deletingProduct = null;
+          render();
+          return;
+        }
+        if (!res.ok) {
+          const data = (await res.json()) as { error?: string };
+          delErr.textContent = data.error || 'Failed to delete product.';
+          delErr.classList.remove('hidden');
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Delete Product';
+          return;
+        }
+        statusBannerMsg = `Removed "${item.model}" from inventory.`;
+        statusBannerIsError = false;
+        deletingProduct = null;
+        await fetchProducts();
+        render();
+      } catch {
+        delErr.textContent = 'Network error while deleting product.';
+        delErr.classList.remove('hidden');
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Delete Product';
+      }
+    });
+
+    actions.append(cancelBtn, confirmBtn);
+    dialog.append(heading, copy, delErr, actions);
+    overlay.appendChild(dialog);
+    return overlay;
+  }
+
+  function renderDashboard(root: HTMLElement) {
+    const outer = el('div', 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8');
+
+    // Admin Header Banner
+    const banner = el('div', 'flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-[#0B2046] p-8 rounded-3xl text-white shadow-2xl relative overflow-hidden');
+    const bannerLeft = el('div', 'relative z-10');
+    bannerLeft.append(
+      el('span', 'bg-[#E4A025] text-[#0B2046] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2', 'Authenticated Session'),
+      el('h2', 'text-3xl font-black uppercase tracking-tight', 'Inventory Management'),
+      el('p', 'text-xs text-slate-300 uppercase tracking-widest mt-1', 'Amanah Toners & Cartridges Nairobi • KTDA Plaza')
+    );
+
+    const bannerActions = el('div', 'flex items-center space-x-4 relative z-10');
+    const addBtn = el('button', 'bg-[#E4A025] hover:bg-yellow-500 text-[#0B2046] font-black px-6 py-3 rounded-xl transition-all shadow-xl flex items-center space-x-2 text-xs uppercase tracking-wider cursor-pointer');
+    addBtn.type = 'button';
+    addBtn.appendChild(createSvg(['M12 4v16m8-8H4'], 'w-4 h-4'));
+    addBtn.appendChild(el('span', undefined, 'Add Product'));
+    addBtn.addEventListener('click', () => {
+      editingProduct = null;
+      isModalOpen = true;
+      render();
+    });
+
+    const logoutBtn = el('button', 'bg-white/10 hover:bg-white/20 text-white font-black px-6 py-3 rounded-xl transition-all text-xs uppercase tracking-wider cursor-pointer', 'Logout');
+    logoutBtn.type = 'button';
+    logoutBtn.addEventListener('click', () => {
+      authToken = null;
+      adminStatus.authenticated = false;
+      statusBannerMsg = '';
+      render();
+    });
+
+    bannerActions.append(addBtn, logoutBtn);
+    banner.append(bannerLeft, bannerActions);
+    outer.appendChild(banner);
+
+    if (statusBannerMsg) {
+      const alertBox = el(
+        'div',
+        `mb-6 p-4 rounded-2xl border text-xs font-bold flex items-center justify-between ${
+          statusBannerIsError
+            ? 'bg-red-50 border-red-200 text-red-700'
+            : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+        }`
+      );
+      alertBox.setAttribute('role', 'status');
+      alertBox.appendChild(el('span', undefined, statusBannerMsg));
+      const dismiss = el('button', 'font-black uppercase tracking-wider text-[10px] underline cursor-pointer', 'Dismiss');
+      dismiss.type = 'button';
+      dismiss.addEventListener('click', () => {
+        statusBannerMsg = '';
+        render();
+      });
+      alertBox.appendChild(dismiss);
+      outer.appendChild(alertBox);
+    }
+
+    // Search & Stats Bar
+    const controls = el('div', 'bg-white p-6 rounded-2xl shadow-xl border border-slate-100 mb-8 flex flex-col md:flex-row gap-4 items-center justify-between');
+    const searchWrap = el('div', 'relative w-full md:w-96');
+    const searchLabel = el('label', 'sr-only', 'Search inventory by model, brand, category, or part number');
+    searchLabel.htmlFor = 'admin-search-input';
+    const iconOverlay = el('div', 'absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none');
+    iconOverlay.appendChild(createSvg(['M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'], 'h-4 w-4 text-slate-400'));
+
+    const searchInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-xs font-black tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-[#0B2046]');
+    searchInput.type = 'text';
+    searchInput.id = 'admin-search-input';
+    searchInput.placeholder = 'SEARCH BY MODEL, BRAND, CATEGORY, PART #...';
+    searchInput.value = searchTerm;
+
+    searchWrap.append(searchLabel, iconOverlay, searchInput);
+
+    const countWrap = el('div', 'flex items-center space-x-4 text-xs font-bold text-slate-500 uppercase tracking-widest');
+    controls.append(searchWrap, countWrap);
+    outer.appendChild(controls);
+
+    // Products Table
+    const tableCard = el('div', 'bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100');
+    const tableScroll = el('div', 'overflow-x-auto');
+    const table = el('table', 'min-w-full divide-y divide-slate-200');
+    const thead = el('thead', 'bg-slate-50');
+    const headRow = el('tr');
+    const th1 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Product Info');
+    const th2 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Category');
+    const th3 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Stock Status');
+    const th4 = el('th', 'px-6 py-4 text-right text-xs font-black text-slate-500 uppercase tracking-wider', 'Actions');
+    headRow.append(th1, th2, th3, th4);
+    thead.appendChild(headRow);
+
+    const tbody = el('tbody', 'bg-white divide-y divide-slate-100');
+    table.append(thead, tbody);
+    tableScroll.appendChild(table);
+    tableCard.appendChild(tableScroll);
+    outer.appendChild(tableCard);
+
+    renderTableRows(tbody, countWrap);
+
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = (e.target as HTMLInputElement).value;
+      renderTableRows(tbody, countWrap);
+    });
+
+    if (isModalOpen) {
+      outer.appendChild(renderProductModal());
+    }
+
+    if (deletingProduct) {
+      outer.appendChild(renderDeleteModal(deletingProduct));
+    }
+
+    root.replaceChildren(outer);
+  }
+
+  function render() {
+    if (!rootEl) return;
+    if (!authToken) {
+      renderAuthScreen(rootEl);
+      return;
+    }
+    renderDashboard(rootEl);
+  }
+
+  fetchStatusAndBoot();
+</script>

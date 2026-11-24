@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+
+<Layout 
+  title="Terms and Conditions — Amanah Toners & Cartridges" 
+  description="Terms and conditions for product inquiries, quotations, and supply from Amanah Toners & Cartridges in Nairobi, Kenya."
+>
+  <Header slot="header" />
+
+  <!-- Hero Banner -->
+  <div class="bg-[#0B2046] py-16 text-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#E4A025]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">Supply Agreement</span>
+      <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight mb-2">Terms & Conditions</h1>
+      <p class="text-slate-300 text-xs sm:text-sm uppercase tracking-widest font-bold">
+        Amanah Toners & Cartridges • Nairobi, KTDA PLAZA
+      </p>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={[
+      { name: 'Terms and Conditions' }
+    ]} />
+
+    <div class="bg-white p-8 sm:p-12 rounded-3xl shadow-xl border border-slate-100 space-y-8 text-slate-700 font-medium text-sm leading-relaxed">
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">1. Scope of Agreement</h2>
+        <p>
+          These Terms and Conditions govern all product inquiries, quotation requests, and commercial orders placed with Amanah Toners & Cartridges ("Amanah", "we", "us"), headquartered at KTDA Plaza, Nairobi, Kenya. By submitting an inquiry or accepting a quotation, the customer agrees to be bound by these provisions.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">2. 100% Genuine OEM Guarantee</h2>
+        <p>
+          All printer consumables, including toner cartridges, ink bottles, copier drums, and maintenance kits supplied by Amanah, are guaranteed 100% genuine and authentic from recognized manufacturers (HP, Canon, Kyocera, and Konica Minolta). Every product is provided in factory-sealed packaging bearing authentic security holograms.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">3. Quotations & Inquiry-Only Pricing</h2>
+        <p>
+          Product prices are provided strictly upon inquiry via our website cart, direct telephone, or WhatsApp desk. All formal quotations and proforma invoices remain valid for the period specified therein (typically 14 to 30 calendar days) and are subject to stock availability at the time of final confirmation.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">4. Delivery, Inspection & Acceptance</h2>
+        <p class="mb-3">
+          Deliveries within Nairobi CBD and surrounding zones are conducted on a same-day schedule, while upcountry orders are dispatched via third-party courier services.
+        </p>
+        <p>
+          The customer or authorized recipient must inspect all exterior cartons and security seals upon delivery. Any physical damage sustained during transit must be reported to Amanah within 24 hours of receipt.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">5. Return & Replacement Policy</h2>
+        <p>
+          In the rare event that an authentic toner cartridge exhibits an OEM manufacturing defect, Amanah will facilitate immediate inspection and product replacement in accordance with the manufacturer's warranty policies. Opened or used cartridges that have been damaged through improper printer maintenance or misuse are not eligible for credit or replacement.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-black text-[#0B2046] uppercase mb-3">6. Governing Law & Jurisdiction</h2>
+        <p>
+          These terms and all commercial transactions shall be governed by and construed in accordance with the Laws of the Republic of Kenya. Any disputes shall be subject to the exclusive jurisdiction of the competent courts in Nairobi.
+        </p>
+      </section>
+
+      <div class="pt-4 border-t border-slate-200 text-xs text-slate-500">
+        <p class="font-black text-[#0B2046] uppercase">Amanah Toners & Cartridges</p>
+        <p>Physical Location: Nairobi, KTDA PLAZA, Kenya</p>
+        <p>Telephone: 0185176133 • Web: https://amanah.or.ke</p>
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>

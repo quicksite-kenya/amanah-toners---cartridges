@@ -1,0 +1,8 @@
+{
+  "name": "Amanah Toners & Cartridges",
+  "description": "E-commerce store and inventory dashboard for Amanah Toners & Cartridges.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

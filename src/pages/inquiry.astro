@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+
+<Layout 
+  title="Inquiry Cart & Quotation Request — Amanah Toners" 
+  description="Review your selected toner cartridges, adjust quantities, and request an instant quotation via form or WhatsApp."
+>
+  <Header slot="header" />
+
+  <!-- Hero Banner -->
+  <div class="bg-[#0B2046] py-14 text-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#E4A025]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-2 inline-block">Official Quotations</span>
+      <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tight mb-2">Inquiry Cart Desk</h1>
+      <p class="text-slate-300 max-w-xl mx-auto text-xs sm:text-sm uppercase tracking-widest font-bold">
+        Manage your items and request immediate competitive pricing from our KTDA Plaza sales team.
+      </p>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={[
+      { name: 'Inquiry Cart' }
+    ]} />
+
+    <div id="inquiry-app">
+      <!-- Populated safely via client script -->
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script>
+  interface CartItem {
+    id: string;
+    brand: string;
+    model: string;
+    imageUrl: string;
+    stock: number;
+    quantity: number;
+    partNumber?: string;
+  }
+
+  function safeAssetUrl(url: string | undefined): string {
+    if (typeof url !== 'string') return '/logo.png';
+    const trimmed = url.trim();
+    if (trimmed === '/logo.png') return trimmed;
+    if (/^\/assets\/[a-zA-Z0-9._/-]+$/.test(trimmed) && !trimmed.includes('..')) {
+      return trimmed;
+    }
+    return '/logo.png';
+  }
+
+  function el<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    className?: string,
+    text?: string
+  ): HTMLElementTagNameMap[K] {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function createSvg(pathDefs: string[], className: string): SVGSVGElement {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', className);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    for (const d of pathDefs) {
+      const p = document.createElementNS(ns, 'path');
+      p.setAttribute('stroke-linecap', 'round');
+      p.setAttribute('stroke-linejoin', 'round');
+      p.setAttribute('stroke-width', '2');
+      p.setAttribute('d', d);
+      svg.appendChild(p);
+    }
+    return svg;
+  }
+
+  function loadCart(): CartItem[] {
+    try {
+      const parsed = JSON.parse(localStorage.getItem('amanah_cart') || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(
+        (item): item is CartItem =>
+          Boolean(item) &&
+          typeof item.id === 'string' &&
+          typeof item.model === 'string' &&
+          typeof item.brand === 'string' &&
+          typeof item.quantity === 'number' &&
+          item.quantity > 0
+      );
+    } catch {
+      return [];
+    }
+  }
+
+  function saveCart(cart: CartItem[]) {
+    localStorage.setItem('amanah_cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cartUpdated'));
+  }
+
+  function renderEmptyState(container: HTMLElement) {
+    const card = el('div', 'max-w-2xl mx-auto bg-white p-12 sm:p-16 rounded-3xl shadow-xl border border-slate-100 text-center my-8');
+    const iconBox = el('div', 'w-16 h-16 bg-[#0B2046]/5 rounded-2xl flex items-center justify-center mx-auto mb-6 text-[#0B2046]');
+    iconBox.appendChild(createSvg(['M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'], 'w-8 h-8'));
+
+    const heading = el('h2', 'text-2xl font-black text-[#0B2046] uppercase mb-2', 'Your Inquiry List is Empty');
+    const desc = el(
+      'p',
+      'text-slate-500 mb-8 font-medium text-sm leading-relaxed max-w-md mx-auto',
+      'Browse our catalog of genuine HP, Canon, Kyocera, and Konica Minolta toners, ink, and printers to add items for an instant quotation.'
+    );
+    const link = el(
+      'a',
+      'inline-block bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-8 rounded-xl transition-all uppercase tracking-widest text-xs shadow-xl',
+      'Explore Shop Catalog \u2192'
+    );
+    link.href = '/shop/';
+
+    card.append(iconBox, heading, desc, link);
+    container.replaceChildren(card);
+  }
+
+  function renderConfirmationState(
+    container: HTMLElement,
+    nameInput: string,
+    phoneInput: string,
+    waLink: string
+  ) {
+    const outer = el('div', 'max-w-2xl mx-auto px-4 py-12 text-center');
+    const card = el('div', 'bg-white p-10 sm:p-12 rounded-3xl shadow-xl border border-slate-200');
+
+    const iconCircle = el('div', 'w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6');
+    iconCircle.appendChild(createSvg(['M5 13l4 4L19 7'], 'w-8 h-8'));
+
+    const heading = el('h2', 'text-2xl font-black text-[#0B2046] uppercase mb-3', 'Quotation Request Logged!');
+
+    const msgP = el('p', 'text-slate-600 mb-6 text-sm font-medium leading-relaxed');
+    msgP.append('Thank you, ');
+    msgP.appendChild(el('strong', 'text-[#0B2046]', nameInput));
+    msgP.append('. Your inquiry has been sent to our desk at ');
+    msgP.appendChild(el('strong', 'text-[#0B2046]', 'Nairobi, KTDA PLAZA'));
+    msgP.append('. Our sales representative will contact you at ');
+    msgP.appendChild(el('strong', 'text-[#0B2046]', phoneInput));
+    msgP.append('.');
+
+    const actions = el('div', 'flex flex-col sm:flex-row items-center justify-center gap-4');
+
+    const waBtn = el(
+      'a',
+      'w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 px-8 rounded-xl uppercase tracking-widest text-xs shadow-xl flex items-center justify-center space-x-2 transition-all'
+    );
+    waBtn.href = waLink;
+    waBtn.target = '_blank';
+    waBtn.rel = 'noopener noreferrer';
+    waBtn.appendChild(
+      createSvg(
+        ['M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'],
+        'w-4 h-4'
+      )
+    );
+    waBtn.appendChild(el('span', undefined, 'Open Details in WhatsApp'));
+
+    const shopBtn = el(
+      'a',
+      'w-full sm:w-auto bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-8 rounded-xl uppercase tracking-widest text-xs shadow-xl transition-all',
+      'Return to Shop'
+    );
+    shopBtn.href = '/shop/';
+
+    actions.append(waBtn, shopBtn);
+    card.append(iconCircle, heading, msgP, actions);
+    outer.appendChild(card);
+    container.replaceChildren(outer);
+  }
+
+  function renderInquiry() {
+    const container = document.getElementById('inquiry-app');
+    if (!container) return;
+
+    let cart = loadCart();
+    if (cart.length === 0) {
+      renderEmptyState(container);
+      return;
+    }
+
+    const totalQuantity = cart.reduce((acc, i) => acc + i.quantity, 0);
+    const itemsSummary = cart
+      .map((item) => `• ${item.quantity}x ${item.brand} ${item.model}${item.partNumber ? ` (Part: ${item.partNumber})` : ''}`)
+      .join('\n');
+    const quickWaUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
+      `Hello Amanah Toners, I would like to request an instant quotation for the following items:\n${itemsSummary}\n\nPlease advise on pricing and delivery to my office in Nairobi.`
+    )}`;
+
+    const grid = el('div', 'grid grid-cols-1 lg:grid-cols-12 gap-10');
+
+    // Left Column: Selected Items
+    const leftCol = el('div', 'lg:col-span-7');
+
+    const banner = el('div', 'bg-[#0B2046] p-6 rounded-2xl text-white mb-6 shadow-xl flex items-center justify-between');
+    const bannerText = el('div');
+    bannerText.append(
+      el('h2', 'text-lg font-black uppercase tracking-wider mb-0.5', 'Selected Items'),
+      el('p', 'text-xs text-[#E4A025] uppercase tracking-widest font-bold', 'Inquiry-Only Pricing')
+    );
+    const unitsBadge = el('span', 'bg-[#E4A025] text-[#0B2046] font-black text-xs px-3 py-1.5 rounded-lg', `${totalQuantity} Units`);
+    banner.append(bannerText, unitsBadge);
+
+    const listCard = el('div', 'bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden mb-6');
+    const ul = el('ul', 'divide-y divide-slate-100');
+
+    for (const item of cart) {
+      const li = el('li', 'p-6 flex flex-col sm:flex-row items-center gap-4');
+
+      const imgWrap = el('div', 'h-24 w-24 flex-shrink-0 bg-slate-50 rounded-xl overflow-hidden p-2 border border-slate-100 flex items-center justify-center');
+      const img = el('img', 'h-full w-full object-contain');
+      img.src = safeAssetUrl(item.imageUrl);
+      img.alt = item.model;
+      img.width = 96;
+      img.height = 96;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      imgWrap.appendChild(img);
+
+      const detailsCol = el('div', 'flex-1 flex flex-col w-full');
+      const topRow = el('div', 'flex justify-between items-start gap-2');
+      const meta = el('div');
+      meta.append(
+        el('span', 'text-[10px] font-black text-slate-400 uppercase tracking-wider', item.brand),
+        el('h3', 'text-base font-black text-[#0B2046] uppercase leading-tight mt-0.5', item.model)
+      );
+      if (item.partNumber) {
+        meta.appendChild(el('p', 'text-[11px] text-slate-500 font-bold uppercase tracking-wider mt-1', `Part: ${item.partNumber}`));
+      }
+      const stockPill = el('span', 'text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md shrink-0 uppercase', 'In Stock');
+      topRow.append(meta, stockPill);
+
+      const bottomRow = el('div', 'flex items-center justify-between mt-4 pt-3 border-t border-slate-50');
+      const qtyBox = el('div', 'flex items-center border border-slate-200 rounded-xl bg-slate-50 overflow-hidden');
+
+      const decBtn = el('button', 'px-3 py-1.5 text-slate-600 hover:text-[#0B2046] hover:bg-slate-200 font-black text-sm transition-colors cursor-pointer', '-');
+      decBtn.type = 'button';
+      decBtn.setAttribute('aria-label', `Decrease quantity for ${item.model}`);
+      decBtn.addEventListener('click', () => {
+        item.quantity -= 1;
+        if (item.quantity <= 0) {
+          cart = cart.filter((i) => i.id !== item.id);
+        }
+        saveCart(cart);
+        renderInquiry();
+      });
+
+      const qtySpan = el('span', 'px-3 font-black text-xs text-[#0B2046]', String(item.quantity));
+
+      const incBtn = el('button', 'px-3 py-1.5 text-slate-600 hover:text-[#0B2046] hover:bg-slate-200 font-black text-sm transition-colors cursor-pointer', '+');
+      incBtn.type = 'button';
+      incBtn.setAttribute('aria-label', `Increase quantity for ${item.model}`);
+      incBtn.addEventListener('click', () => {
+        item.quantity += 1;
+        saveCart(cart);
+        renderInquiry();
+      });
+
+      qtyBox.append(decBtn, qtySpan, incBtn);
+
+      const removeBtn = el('button', 'text-red-500 hover:text-red-700 text-xs font-black uppercase tracking-wider cursor-pointer', 'Remove');
+      removeBtn.type = 'button';
+      removeBtn.setAttribute('aria-label', `Remove ${item.model} from inquiry list`);
+      removeBtn.addEventListener('click', () => {
+        cart = cart.filter((i) => i.id !== item.id);
+        saveCart(cart);
+        renderInquiry();
+      });
+
+      bottomRow.append(qtyBox, removeBtn);
+      detailsCol.append(topRow, bottomRow);
+      li.append(imgWrap, detailsCol);
+      ul.appendChild(li);
+    }
+
+    listCard.appendChild(ul);
+
+    const waDirect = el(
+      'a',
+      'w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 px-6 rounded-2xl flex items-center justify-center space-x-2 shadow-xl uppercase tracking-wider text-xs transition-all text-center'
+    );
+    waDirect.href = quickWaUrl;
+    waDirect.target = '_blank';
+    waDirect.rel = 'noopener noreferrer';
+    waDirect.appendChild(
+      createSvg(
+        ['M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'],
+        'w-5 h-5 shrink-0'
+      )
+    );
+    waDirect.appendChild(el('span', undefined, 'Order List Directly on WhatsApp'));
+
+    leftCol.append(banner, listCard, waDirect);
+
+    // Right Column: Quotation Request Form
+    const rightCol = el('div', 'lg:col-span-5');
+    const formCard = el('div', 'bg-white p-8 rounded-3xl shadow-xl border-t-4 border-[#E4A025]');
+
+    const deskBox = el('div', 'mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100');
+    deskBox.append(
+      el('p', 'text-[10px] font-black text-slate-400 uppercase tracking-widest', 'Office Desk'),
+      el('p', 'text-xs font-black text-[#0B2046] mt-0.5', 'Nairobi, KTDA PLAZA • Phone: 0185176133')
+    );
+
+    const formHeading = el('h2', 'text-xl font-black text-[#0B2046] uppercase mb-4', 'Request Official Quote');
+    const formDesc = el(
+      'p',
+      'text-xs text-slate-500 font-medium mb-6',
+      'Fill in your details below and our sales department will deliver an official quote with discounts and dispatch time.'
+    );
+
+    const form = el('form', 'space-y-5');
+    form.id = 'inquiry-form';
+
+    const makeField = (
+      id: string,
+      labelText: string,
+      type: 'text' | 'tel' | 'textarea',
+      placeholder: string,
+      required: boolean
+    ) => {
+      const wrap = el('div');
+      const label = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', labelText);
+      label.htmlFor = id;
+
+      let control: HTMLInputElement | HTMLTextAreaElement;
+      if (type === 'textarea') {
+        const ta = el('textarea', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold text-[#0B2046] focus:ring-2 focus:ring-[#0B2046]');
+        ta.rows = 3;
+        control = ta;
+      } else {
+        const inp = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold text-[#0B2046] focus:ring-2 focus:ring-[#0B2046]');
+        inp.type = type;
+        control = inp;
+      }
+      control.id = id;
+      control.placeholder = placeholder;
+      if (required) control.required = true;
+
+      wrap.append(label, control);
+      return { wrap, control };
+    };
+
+    const nameField = makeField('cust-name', 'Your Full Name *', 'text', 'e.g. Grace Wanjiku', true);
+    const phoneField = makeField('cust-phone', 'Phone / WhatsApp Number *', 'tel', 'e.g. 0722000000', true);
+    const orgField = makeField('cust-org', 'Company / Organization (Optional)', 'text', 'e.g. Standard Holdings Ltd', false);
+    const notesField = makeField('cust-notes', 'Delivery Location or Notes (Optional)', 'textarea', 'e.g. Office delivery at Upper Hill, Nairobi or KTDA Plaza pickup...', false);
+
+    const formErr = el('p', 'hidden text-red-600 text-xs font-bold');
+    formErr.setAttribute('role', 'alert');
+
+    const submitBtn = el(
+      'button',
+      'w-full bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-6 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer',
+      'Submit Quotation Request'
+    );
+    submitBtn.type = 'submit';
+
+    form.append(nameField.wrap, phoneField.wrap, orgField.wrap, notesField.wrap, formErr, submitBtn);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nameInput = nameField.control.value.trim();
+      const phoneInput = phoneField.control.value.trim();
+      const orgInput = orgField.control.value.trim();
+      const notesInput = notesField.control.value.trim();
+
+      if (nameInput.length < 2 || phoneInput.length < 6) {
+        formErr.textContent = 'Please provide a valid full name and phone number.';
+        formErr.classList.remove('hidden');
+        return;
+      }
+
+      formErr.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        await fetch('/api/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'quote',
+            name: nameInput,
+            phone: phoneInput,
+            organization: orgInput,
+            message: notesInput,
+            items: cart.map((c) => ({
+              id: c.id,
+              brand: c.brand,
+              model: c.model,
+              partNumber: c.partNumber || '',
+              quantity: c.quantity,
+            })),
+          }),
+        });
+      } catch {
+        // Proceed cleanly to WhatsApp dispatch summary even if offline
+      }
+
+      const orderText = `Hello Amanah Toners, my name is ${nameInput} (Phone: ${phoneInput}${orgInput ? ', ' + orgInput : ''}).\nI would like to place an official inquiry for:\n${itemsSummary}\n${notesInput ? `Delivery Notes: ${notesInput}` : ''}`;
+      const waLink = `https://wa.me/254185176133?text=${encodeURIComponent(orderText)}`;
+
+      localStorage.removeItem('amanah_cart');
+      window.dispatchEvent(new Event('cartUpdated'));
+      renderConfirmationState(container, nameInput, phoneInput, waLink);
+    });
+
+    formCard.append(deskBox, formHeading, formDesc, form);
+    rightCol.appendChild(formCard);
+
+    grid.append(leftCol, rightCol);
+    container.replaceChildren(grid);
+  }
+
+  renderInquiry();
+  window.addEventListener('cartUpdated', renderInquiry);
+</script>
