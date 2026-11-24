@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -8,13 +8,13 @@ import { getImageDimensions } from '../../data/products';
 
 export const prerender = false;
 
-const allProducts = getAllProducts();
+const allProducts = await getAllProducts();
 const brands = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.brand)))];
 const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.category)))];
 ---
 
 <Layout 
-  title="Shop Premium Toners & Cartridges — Amanah Nairobi" 
+  title="Shop Premium Toners & Cartridges â€” Amanah Nairobi" 
   description="Browse 100% genuine HP, Canon, Kyocera, and Konica Minolta toner cartridges, ink bottles, and printers at Amanah in Nairobi, Kenya."
 >
   <Header slot="header" />
@@ -57,9 +57,9 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
         <!-- Quick Info Tag -->
         <div class="flex items-center space-x-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
           <span>Inquiry-Only Pricing</span>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true">Â·</span>
           <span>Nairobi KTDA Plaza</span>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true">Â·</span>
           <span class="text-emerald-600 font-black">All In Stock</span>
         </div>
       </div>
@@ -141,7 +141,7 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
             <div class="p-6 flex flex-col flex-1">
               <div class="flex items-center space-x-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
                 <span>{product.category}</span>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">Â·</span>
                 <span class="text-emerald-600 font-black">In Stock</span>
               </div>
               <a href={`/products/${product.slug}/`}>

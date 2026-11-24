@@ -8,3 +8,9 @@ coverage/
 !.env.example
 data/
 .astro/
+
+.vercel/
+
+.vercel/
+
+.vercel/

@@ -1,10 +1,11 @@
-import type { APIRoute } from 'astro';
+﻿import type { APIRoute } from 'astro';
 import { recordInquiry } from '../../lib/db';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
+
   try {
     body = (await request.json()) as Record<string, unknown>;
   } catch {
@@ -29,18 +30,33 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const id = recordInquiry({
-    type,
-    name,
-    phone,
-    organization,
-    subject,
-    message,
-    items,
-  });
+  try {
+    const id = await recordInquiry({
+      type,
+      name,
+      phone,
+      organization,
+      subject,
+      message,
+      items,
+    });
 
-  return new Response(JSON.stringify({ ok: true, id }), {
-    status: 201,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-  });
+    return new Response(JSON.stringify({ ok: true, id }), {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (error) {
+    console.error('Failed to save inquiry:', error);
+
+    return new Response(JSON.stringify({ error: 'Unable to submit your inquiry right now. Please try again.' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store',
+      },
+    });
+  }
 };

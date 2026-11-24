@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -9,13 +9,14 @@ import { getImageDimensions } from '../../data/products';
 export const prerender = false;
 
 const slug = Astro.params.slug || '';
-const product = getProductBySlug(slug);
+const product = await getProductBySlug(slug);
 
 if (!product) {
   return new Response('Product not found', { status: 404 });
 }
 
-const relatedProducts = getAllProducts()
+const allProducts = await getAllProducts();
+const relatedProducts = allProducts
   .filter((p) => p.brand === product.brand && p.id !== product.id)
   .slice(0, 4);
 
@@ -24,7 +25,7 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
 ---
 
 <Layout 
-  title={`${product.model} (${product.brand}) — Amanah Toners Kenya`} 
+  title={`${product.model} (${product.brand}) â€” Amanah Toners Kenya`} 
   description={product.description}
 >
   <Header slot="header" />
@@ -65,9 +66,9 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
           <!-- Unboxed metadata line -->
           <div class="flex items-center space-x-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
             <span class="text-[#0B2046] font-black">{product.category}</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">Â·</span>
             <span class="text-emerald-600 font-black">In Stock ({product.stock} units)</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">Â·</span>
             <span>OEM Original</span>
           </div>
 

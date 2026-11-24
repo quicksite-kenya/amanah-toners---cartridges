@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -37,7 +37,7 @@ const categoryDetails: Record<string, { category: string; title: string; subtitl
   }
 };
 
-const { category: dbCategory, products } = getProductsByCategorySlug(slug);
+const { category: dbCategory, products } = await getProductsByCategorySlug(slug);
 const knownDetails = categoryDetails[slug];
 const category = dbCategory || knownDetails?.category || '';
 
@@ -51,7 +51,7 @@ const narrative = knownDetails?.narrative || `Original certified ${category} for
 ---
 
 <Layout 
-  title={`${title} — Amanah Toners & Cartridges`}
+  title={`${title} â€” Amanah Toners & Cartridges`}
   description={`Shop genuine ${title} at Amanah in Nairobi, Kenya. Original manufacturer quality with fast same-day dispatch.`}
 >
   <Header slot="header" />
@@ -124,7 +124,7 @@ const narrative = knownDetails?.narrative || `Original certified ${category} for
             <div class="p-6 flex flex-col flex-1">
               <div class="flex items-center space-x-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
                 <span>{product.brand}</span>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">Â·</span>
                 <span class="text-emerald-600 font-black">In Stock</span>
               </div>
               <a href={`/products/${product.slug}/`}>
