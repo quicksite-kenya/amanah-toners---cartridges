@@ -7,7 +7,7 @@ interface Props {
 
 const { 
   title, 
-  description = "Amanah Toners & Cartridges — Trust Every Print. Kenya's premier supplier of original HP, Canon, Kyocera, Konica Minolta, Epson, and Brother toner cartridges and consumables.",
+  description = "Parem Toners — Trust Every Print. Kenya's premier supplier of original HP, Canon, Kyocera, Konica Minolta, Epson, and Brother toner cartridges and consumables.",
   noindex = false 
 } = Astro.props;
 ---
@@ -17,7 +17,7 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/jpeg" href="/assets/aistudio/parem3_8db6bee6.jpg" />
     <meta name="generator" content={Astro.generator} />
     
     <title>{title}</title>
@@ -29,16 +29,16 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image" content="/assets/aistudio/parem3_8db6bee6.jpg" />
 
     <!-- Tailwind CSS / Global Styles -->
     <style is:global>
       @import "tailwindcss";
     </style>
   </head>
-  <body class="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col selection:bg-[#E4A025] selection:text-[#0B2046]">
-    <!-- Top Gold Brand Accent Bar -->
-    <div class="h-1.5 w-full bg-[#E4A025] sticky top-0 z-[60]"></div>
+  <body class="min-h-screen bg-[#F4FBFF] font-sans text-slate-900 flex flex-col selection:bg-[#00CCFF] selection:text-[#0B2046]">
+    <!-- Top Light Blue Brand Accent Bar -->
+    <div class="h-1.5 w-full bg-[#00CCFF] sticky top-0 z-[60]"></div>
 
     <!-- Header Component -->
     <slot name="header" />

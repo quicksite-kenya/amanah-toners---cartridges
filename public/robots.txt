@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /admin
 
-Sitemap: https://amanah.or.ke/sitemap.xml
+Sitemap: https://paremagencies.co.ke/sitemap.xml

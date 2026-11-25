@@ -13,6 +13,7 @@ export interface Product {
 }
 
 export const IMAGE_DIMENSIONS: Record<string, { width: number; height: number }> = {
+  '/assets/aistudio/parem3_8db6bee6.jpg': { width: 196, height: 200 },
   '/logo.png': { width: 512, height: 512 },
   '/assets/aistudio/WhatsApp_Image_2026-11-17_at_11.40.28_6b205af5.jpeg': { width: 571, height: 1000 },
   '/assets/aistudio/WhatsApp_Image_2026-11-17_at_11.40.28__1__c2cedd6f.jpeg': { width: 822, height: 809 },

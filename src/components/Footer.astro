@@ -14,27 +14,27 @@ const categories = [
 ];
 ---
 
-<footer class="bg-[#0B2046] text-white pt-20 pb-12 border-t-4 border-[#E4A025] relative overflow-hidden">
+<footer class="bg-[#0B2046] text-white pt-20 pb-12 border-t-4 border-[#00CCFF] relative overflow-hidden">
   <h2 class="sr-only">Footer Navigation and Office Contact</h2>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
       {/* Col 1: Brand */}
       <div class="lg:col-span-2">
-        <a href="/" class="inline-block bg-white rounded-2xl p-3 mb-6 shadow-xl border border-white/10">
+        <a href="/" class="inline-block bg-white rounded-2xl p-2 mb-6 shadow-xl border-2 border-[#00CCFF]/40 hover:border-[#00CCFF] transition-colors">
           <img
-            src="/logo.png"
-            alt="Amanah Toners & Cartridges"
-            width="512"
-            height="512"
+            src="/assets/aistudio/parem3_8db6bee6.jpg"
+            alt="Parem Toners"
+            width="196"
+            height="200"
             loading="lazy"
             decoding="async"
-            class="h-14 w-14 object-contain"
+            class="h-14 w-14 object-contain rounded-xl"
           />
         </a>
         <p class="text-xs text-slate-300 leading-relaxed uppercase tracking-wider font-bold mb-6 max-w-sm">
-          Amanah Toners & Cartridges — Trust Every Print. Kenya's premier supplier of original HP, Canon, Kyocera, and Konica Minolta printing supplies.
+          Parem Toners — Trust Every Print. Kenya's premier supplier of original HP, Canon, Kyocera, and Konica Minolta printing supplies.
         </p>
-        <div class="flex items-center space-x-2 text-[#E4A025] text-xs font-black uppercase tracking-widest">
+        <div class="flex items-center space-x-2 text-[#00CCFF] text-xs font-black uppercase tracking-widest">
           <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           <span>100% Genuine OEM Certified</span>
         </div>
@@ -42,45 +42,51 @@ const categories = [
 
       {/* Col 2: Navigation Links */}
       <div>
-        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#E4A025]">Quick Links</h3>
+        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#00CCFF]">Quick Links</h3>
         <ul class="space-y-3 text-xs font-bold uppercase text-slate-300">
-          <li><a href="/" class="hover:text-[#E4A025] transition-colors">Home</a></li>
-          <li><a href="/shop/" class="hover:text-[#E4A025] transition-colors">Shop Catalog</a></li>
-          <li><a href="/about/" class="hover:text-[#E4A025] transition-colors">About Us</a></li>
-          <li><a href="/delivery/" class="hover:text-[#E4A025] transition-colors">Delivery Information</a></li>
-          <li><a href="/faq/" class="hover:text-[#E4A025] transition-colors">FAQ</a></li>
-          <li><a href="/inquiry/" class="hover:text-[#E4A025] transition-colors">Inquiry Cart</a></li>
-          <li><a href="/contact/" class="hover:text-[#E4A025] transition-colors">Contact Us</a></li>
+          <li><a href="/" class="hover:text-[#00CCFF] transition-colors">Home</a></li>
+          <li><a href="/shop/" class="hover:text-[#00CCFF] transition-colors">Shop Catalog</a></li>
+          <li><a href="/about/" class="hover:text-[#00CCFF] transition-colors">About Us</a></li>
+          <li><a href="/delivery/" class="hover:text-[#00CCFF] transition-colors">Delivery Information</a></li>
+          <li><a href="/faq/" class="hover:text-[#00CCFF] transition-colors">FAQ</a></li>
+          <li><a href="/inquiry/" class="hover:text-[#00CCFF] transition-colors">Inquiry Cart</a></li>
+          <li><a href="/contact/" class="hover:text-[#00CCFF] transition-colors">Contact Us</a></li>
         </ul>
       </div>
 
       {/* Col 3: Brands & Categories */}
       <div>
-        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#E4A025]">Brands & Catalog</h3>
+        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#00CCFF]">Brands & Catalog</h3>
         <ul class="space-y-3 text-xs font-bold uppercase text-slate-300">
           {brands.map((b) => (
-            <li><a href={b.href} class="hover:text-[#E4A025] transition-colors">{b.name}</a></li>
+            <li><a href={b.href} class="hover:text-[#00CCFF] transition-colors">{b.name}</a></li>
           ))}
           {categories.map((c) => (
-            <li><a href={c.href} class="hover:text-[#E4A025] transition-colors">{c.name}</a></li>
+            <li><a href={c.href} class="hover:text-[#00CCFF] transition-colors">{c.name}</a></li>
           ))}
         </ul>
       </div>
 
       {/* Col 4: Contact & Office */}
       <div>
-        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#E4A025]">Contact Office</h3>
+        <h3 class="font-black text-xs uppercase tracking-[0.25em] mb-6 text-[#00CCFF]">Contact Office</h3>
         <div class="space-y-4">
           <div>
             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">CALL / WHATSAPP</p>
-            <a href="tel:0185176133" class="text-base font-black text-white hover:text-[#E4A025] transition-colors block">0185176133</a>
+            <a href="tel:+254722694443" class="text-base font-black text-white hover:text-[#00CCFF] transition-colors block">0722 694443</a>
+            <a href="tel:+254722694443" class="text-xs font-bold text-slate-300 hover:text-[#00CCFF] transition-colors block">+254 722 694443</a>
           </div>
           <div>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">PHYSICAL HEADQUARTERS</p>
-            <p class="text-xs font-bold text-slate-300">Nairobi, KTDA PLAZA</p>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">EMAIL &amp; WEB</p>
+            <a href="mailto:info@paremagencies.co.ke" class="text-xs font-bold text-slate-300 hover:text-[#00CCFF] transition-colors block break-all">info@paremagencies.co.ke</a>
+            <a href="https://paremagencies.co.ke" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-[#00CCFF] hover:underline transition-colors block mt-1">paremagencies.co.ke</a>
+          </div>
+          <div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">PHYSICAL ADDRESS</p>
+            <p class="text-xs font-bold text-slate-300">Latema Road, 00400</p>
           </div>
           <div class="pt-2">
-            <a href="/admin/" class="text-[10px] font-bold text-slate-400 hover:text-[#E4A025] uppercase tracking-widest block">
+            <a href="/admin/" class="text-[10px] font-bold text-slate-400 hover:text-[#00CCFF] uppercase tracking-widest block">
               Admin Portal &rarr;
             </a>
           </div>
@@ -89,11 +95,11 @@ const categories = [
     </div>
 
     {/* Bottom Bar */}
-    <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-xs font-bold uppercase tracking-widest text-slate-400">
-      <p>&copy; {new Date().getFullYear()} Amanah Toners & Cartridges. All rights reserved.</p>
+    <div class="pt-8 border-t border-[#00CCFF]/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-xs font-bold uppercase tracking-widest text-slate-400">
+      <p>&copy; {new Date().getFullYear()} Parem Toners. All rights reserved.</p>
       <div class="flex space-x-6">
-        <a href="/privacy/" class="hover:text-[#E4A025] transition-colors">Privacy Policy</a>
-        <a href="/terms/" class="hover:text-[#E4A025] transition-colors">Terms of Service</a>
+        <a href="/privacy/" class="hover:text-[#00CCFF] transition-colors">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-[#00CCFF] transition-colors">Terms of Service</a>
       </div>
     </div>
   </div>

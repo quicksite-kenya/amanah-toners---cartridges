@@ -10,7 +10,7 @@ const categories = [
     questions: [
       {
         q: 'Are all your toner cartridges 100% original OEM products?',
-        a: 'Yes, absolutely. At Amanah Toners & Cartridges, our foundational promise is "Trust Every Print". We stock exclusively 100% genuine OEM toner cartridges, original ink refill bottles, and factory maintenance kits from HP, Canon, Kyocera, and Konica Minolta. Every product comes in its original sealed box with authentic manufacturer security holograms.'
+        a: 'Yes, absolutely. At Parem Toners, our foundational promise is "Trust Every Print". We stock exclusively 100% genuine OEM toner cartridges, original ink refill bottles, and factory maintenance kits from HP, Canon, Kyocera, and Konica Minolta. Every product comes in its original sealed box with authentic manufacturer security holograms.'
       },
       {
         q: 'How can I verify the authenticity of an HP or Canon toner?',
@@ -31,7 +31,7 @@ const categories = [
       },
       {
         q: 'How do I place an inquiry or request an official quote?',
-        a: 'You can add items to your Inquiry List right here on the website and submit the form, or click "WhatsApp Order" on any product page. You can also call us directly at 0185176133. Our sales desk typically replies within 5–15 minutes with complete pricing and delivery options.'
+        a: 'You can add items to your Inquiry List right here on the website and submit the form, or click "WhatsApp Order" on any product page. You can also call us directly at 0722 694443 (+254 722 694443) or email info@paremagencies.co.ke. Our sales desk typically replies within 5–15 minutes with complete pricing and delivery options.'
       },
       {
         q: 'Can you provide official Proforma Invoices and LPOs for corporate procurement?',
@@ -44,7 +44,7 @@ const categories = [
     questions: [
       {
         q: 'Can I pick up my toner in person in Nairobi?',
-        a: 'Yes! You are welcome to visit our physical office at KTDA Plaza in Nairobi CBD to collect your order in person, inspect the security holograms, and receive your receipt on the spot.'
+        a: 'Yes! You are welcome to visit our physical office at Latema Road, 00400 in Nairobi CBD to collect your order in person, inspect the security holograms, and receive your receipt on the spot.'
       },
       {
         q: 'How fast is delivery within Nairobi?',
@@ -61,7 +61,7 @@ const categories = [
     questions: [
       {
         q: 'What if I am not sure which toner fits my printer model?',
-        a: 'Simply call or WhatsApp our technical desk at 0185176133 with your printer model name (e.g. "HP LaserJet Pro 4001" or "Kyocera ECOSYS M2040dn"). Our technicians will immediately confirm the exact part number and yield.'
+        a: 'Simply call or WhatsApp our technical desk at 0722 694443 (+254 722 694443) or email info@paremagencies.co.ke with your printer model name (e.g. "HP LaserJet Pro 4001" or "Kyocera ECOSYS M2040dn"). Our technicians will immediately confirm the exact part number and yield.'
       },
       {
         q: 'What is your warranty and replacement policy?',
@@ -73,16 +73,17 @@ const categories = [
 ---
 
 <Layout 
-  title="Frequently Asked Questions — Amanah Toners Nairobi" 
+  title="Frequently Asked Questions — Parem Toners Nairobi" 
   description="Find answers to common questions about original toner cartridges, verification, inquiry pricing, and delivery across Kenya."
 >
   <Header slot="header" />
 
   <!-- Hero Banner -->
   <div class="bg-[#0B2046] py-16 text-white relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#E4A025]"></div>
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#00CCFF]"></div>
+    <div class="absolute -top-24 right-0 w-96 h-96 bg-[#00CCFF]/15 rounded-full blur-3xl pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">Help & Product Knowledge</span>
+      <span class="text-[#00CCFF] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">Help & Product Knowledge</span>
       <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Frequently Asked Questions</h1>
       <p class="text-slate-300 max-w-2xl mx-auto text-sm uppercase tracking-widest font-bold">
         Everything you need to know about genuine toner verification, ordering, and delivery.
@@ -98,21 +99,21 @@ const categories = [
 
     <!-- FAQ Accordions by Category -->
     <div class="space-y-12 mb-16">
-      {categories.map((cat, catIdx) => (
+      {categories.map((cat) => (
         <div>
           <div class="flex items-center space-x-3 mb-6">
-            <span class="h-6 w-1 bg-[#E4A025] rounded-full"></span>
+            <span class="h-6 w-1 bg-[#00CCFF] rounded-full"></span>
             <h2 class="text-xl font-black text-[#0B2046] uppercase tracking-wide">{cat.title}</h2>
           </div>
 
           <div class="space-y-4">
-            {cat.questions.map((item, qIdx) => (
-              <details class="group bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden transition-all duration-200">
-                <summary class="p-6 cursor-pointer flex items-center justify-between text-left font-black text-sm uppercase text-[#0B2046] group-hover:text-[#E4A025] select-none">
+            {cat.questions.map((item) => (
+              <details class="group bg-white rounded-2xl shadow-md border border-[#BAE6FD] overflow-hidden transition-all duration-200">
+                <summary class="p-6 cursor-pointer flex items-center justify-between text-left font-black text-sm uppercase text-[#0B2046] group-hover:text-[#007BA7] select-none">
                   <span class="pr-4">{item.q}</span>
-                  <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                  <svg class="w-5 h-5 text-[#007BA7] group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
-                <div class="px-6 pb-6 pt-2 text-slate-600 text-sm font-medium leading-relaxed border-t border-slate-50">
+                <div class="px-6 pb-6 pt-3 text-slate-600 text-sm font-medium leading-relaxed border-t border-[#E6F9FF]">
                   <p>{item.a}</p>
                 </div>
               </details>
@@ -123,16 +124,16 @@ const categories = [
     </div>
 
     <!-- Need More Help Banner -->
-    <div class="bg-[#0B2046] text-white p-8 sm:p-10 rounded-3xl shadow-xl border-t-4 border-[#E4A025] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+    <div class="bg-[#0B2046] text-white p-8 sm:p-10 rounded-3xl shadow-xl border-t-4 border-[#00CCFF] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
       <div>
         <h3 class="text-xl font-black uppercase mb-1">Have a specific question not covered here?</h3>
         <p class="text-xs text-slate-300 font-medium">
-          Our sales and technical support teams at KTDA Plaza are standing by to help.
+          Our sales and technical support teams at Latema Road, 00400 are standing by to help.
         </p>
       </div>
       <div class="flex flex-col sm:flex-row gap-3 shrink-0">
         <a 
-          href="https://wa.me/254185176133" 
+          href="https://wa.me/254722694443" 
           target="_blank" 
           rel="noopener noreferrer"
           class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-6 py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2"
@@ -141,10 +142,10 @@ const categories = [
           <span>Ask on WhatsApp</span>
         </a>
         <a 
-          href="tel:0185176133" 
-          class="bg-[#E4A025] hover:bg-yellow-500 text-[#0B2046] font-black px-6 py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg flex items-center justify-center"
+          href="tel:+254722694443" 
+          class="bg-[#00CCFF] hover:bg-[#38D8FF] text-[#0B2046] font-black px-6 py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg flex items-center justify-center"
         >
-          Call 0185176133
+          Call 0722 694443
         </a>
       </div>
     </div>

@@ -4,27 +4,28 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 
-const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
-  'Hello Amanah Toners & Cartridges, I would like to confirm delivery arrangements and dispatch details for my order.'
+const waDeliveryUrl = `https://wa.me/254722694443?text=${encodeURIComponent(
+  'Hello Parem Toners, I would like to confirm delivery arrangements and dispatch details for my order.'
 )}`;
 ---
 
 <Layout
-  title="Delivery Information — Amanah Toners & Cartridges"
-  description="Delivery, dispatch, and collection arrangements for Amanah Toners & Cartridges at KTDA Plaza, Nairobi."
+  title="Delivery Information — Parem Toners"
+  description="Delivery, dispatch, and collection arrangements for Parem Toners at Latema Road, 00400."
 >
   <Header slot="header" />
 
   <!-- Hero Banner -->
   <div class="bg-[#0B2046] py-16 text-white relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#E4A025]"></div>
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#00CCFF]"></div>
+    <div class="absolute -top-24 right-0 w-96 h-96 bg-[#00CCFF]/15 rounded-full blur-3xl pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">
+      <span class="text-[#00CCFF] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">
         Dispatch &amp; Collection Guide
       </span>
       <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Delivery Information</h1>
       <p class="text-slate-300 max-w-2xl mx-auto text-sm uppercase tracking-widest font-bold">
-        Overview of order dispatch, regional delivery arrangements, and counter collection from Nairobi, KTDA PLAZA.
+        Overview of order dispatch, regional delivery arrangements, and counter collection from Latema Road, 00400.
       </p>
     </div>
   </div>
@@ -36,28 +37,32 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
     ]} />
 
     <!-- Introduction to Delivery Services -->
-    <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 sm:p-10 mb-10">
+    <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 sm:p-10 mb-10">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div class="max-w-3xl">
-          <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase block mb-2">Overview</span>
+          <span class="text-[#007BA7] font-black text-xs tracking-[0.3em] uppercase block mb-2">Overview</span>
           <h2 class="text-2xl sm:text-3xl font-black text-[#0B2046] uppercase mb-4">
             Introduction to Delivery Services
           </h2>
           <p class="text-slate-600 text-sm sm:text-base font-medium leading-relaxed mb-4">
-            Amanah Toners &amp; Cartridges coordinates order dispatch and customer collection from our base at
-            <strong class="text-[#0B2046]">Nairobi, KTDA PLAZA</strong>. Because orders are handled on an inquiry and quotation basis, specific delivery arrangements are confirmed directly with each customer prior to dispatch.
+            Parem Toners coordinates order dispatch and customer collection from our base at
+            <strong class="text-[#0B2046]">Latema Road, 00400</strong>. Because orders are handled on an inquiry and quotation basis, specific delivery arrangements are confirmed directly with each customer prior to dispatch.
           </p>
           <p class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 inline-block">
-            Note: Sections marked as editable placeholders require confirmation by Amanah management before final publication of rates and schedules.
+            Note: Sections marked as editable placeholders require confirmation by Parem Toners management before final publication of rates and schedules.
           </p>
         </div>
 
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shrink-0 lg:w-80">
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Dispatch Base</p>
-          <p class="text-base font-black text-[#0B2046] uppercase mb-3">Nairobi, KTDA PLAZA</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Delivery Desk Phone</p>
-          <a href="tel:0185176133" class="text-lg font-black text-[#0B2046] hover:text-[#E4A025] transition-colors">
-            0185176133
+        <div class="bg-[#F0FBFF] border border-[#BAE6FD] rounded-2xl p-6 shrink-0 lg:w-80">
+          <p class="text-[10px] font-black text-[#007BA7] uppercase tracking-widest mb-1">Dispatch Base</p>
+          <p class="text-base font-black text-[#0B2046] uppercase mb-3">Latema Road, 00400</p>
+          <p class="text-[10px] font-black text-[#007BA7] uppercase tracking-widest mb-1">Delivery Desk Phone &amp; Email</p>
+          <a href="tel:+254722694443" class="text-lg font-black text-[#0B2046] hover:text-[#007BA7] transition-colors block">
+            0722 694443
+          </a>
+          <p class="text-xs font-bold text-slate-600">+254 722 694443</p>
+          <a href="mailto:info@paremagencies.co.ke" class="text-xs font-bold text-[#007BA7] hover:underline transition-colors block mt-1 break-all">
+            info@paremagencies.co.ke
           </a>
         </div>
       </div>
@@ -66,10 +71,10 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
     <!-- Nairobi & Upcountry Delivery Arrangements -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
       <!-- Nairobi Delivery Arrangements -->
-      <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col justify-between">
+      <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 flex flex-col justify-between">
         <div>
           <div class="flex items-center space-x-3 mb-4">
-            <div class="w-11 h-11 rounded-xl bg-[#0B2046] text-[#E4A025] flex items-center justify-center shrink-0">
+            <div class="w-11 h-11 rounded-xl bg-[#0B2046] text-[#00CCFF] flex items-center justify-center shrink-0 border border-[#00CCFF]/30">
               <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -78,11 +83,11 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
             <h2 class="text-xl font-black text-[#0B2046] uppercase">Nairobi Delivery Arrangements</h2>
           </div>
           <p class="text-slate-600 text-sm font-medium leading-relaxed mb-5">
-            Local deliveries originate from our office at <strong class="text-[#0B2046]">Nairobi, KTDA PLAZA</strong>. Specific coverage zones, rider dispatch windows, and handoff procedures are arranged upon quotation confirmation.
+            Local deliveries originate from our office at <strong class="text-[#0B2046]">Latema Road, 00400</strong>. Specific coverage zones, rider dispatch windows, and handoff procedures are arranged upon quotation confirmation.
           </p>
         </div>
 
-        <div class="bg-slate-50 border border-dashed border-[#E4A025] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
+        <div class="bg-[#F0FBFF] border border-dashed border-[#0099CC] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder — Business Confirmation Required]</p>
           <p class="font-medium">
             <strong class="text-[#0B2046]">Covered Nairobi Zones:</strong> [Insert confirmed Nairobi CBD and surrounding delivery areas]
@@ -94,10 +99,10 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
       </section>
 
       <!-- Upcountry Delivery Arrangements -->
-      <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col justify-between">
+      <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 flex flex-col justify-between">
         <div>
           <div class="flex items-center space-x-3 mb-4">
-            <div class="w-11 h-11 rounded-xl bg-[#E4A025] text-[#0B2046] flex items-center justify-center shrink-0">
+            <div class="w-11 h-11 rounded-xl bg-[#00CCFF] text-[#0B2046] flex items-center justify-center shrink-0">
               <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
@@ -106,11 +111,11 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
             <h2 class="text-xl font-black text-[#0B2046] uppercase">Upcountry Delivery Arrangements</h2>
           </div>
           <p class="text-slate-600 text-sm font-medium leading-relaxed mb-5">
-            For customers outside Nairobi, consignments are coordinated from <strong class="text-[#0B2046]">Nairobi, KTDA PLAZA</strong> in agreement with the customer after confirming destination details and waybill instructions.
+            For customers outside Nairobi, consignments are coordinated from <strong class="text-[#0B2046]">Latema Road, 00400</strong> in agreement with the customer after confirming destination details and waybill instructions.
           </p>
         </div>
 
-        <div class="bg-slate-50 border border-dashed border-[#E4A025] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
+        <div class="bg-[#F0FBFF] border border-dashed border-[#0099CC] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder — Business Confirmation Required]</p>
           <p class="font-medium">
             <strong class="text-[#0B2046]">Courier &amp; Parcel Partners:</strong> [Insert approved courier or parcel transport services]
@@ -125,15 +130,15 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
     <!-- Processing, Charges & Timelines Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
       <!-- Order Processing & Dispatch Information -->
-      <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col justify-between">
+      <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 flex flex-col justify-between">
         <div>
-          <span class="text-[#E4A025] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 01</span>
+          <span class="text-[#007BA7] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 01</span>
           <h2 class="text-lg font-black text-[#0B2046] uppercase mb-3">Order Processing &amp; Dispatch</h2>
           <p class="text-slate-600 text-sm font-medium leading-relaxed mb-5">
             Orders begin once product availability, quotation approval, and delivery instructions are confirmed with our sales desk.
           </p>
         </div>
-        <div class="bg-slate-50 border border-dashed border-[#E4A025] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
+        <div class="bg-[#F0FBFF] border border-dashed border-[#0099CC] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Daily Cut-Off Time:</strong> [Insert confirmed order cut-off time]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Verification Requirements:</strong> [Insert LPO / payment confirmation terms]</p>
@@ -141,15 +146,15 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
       </section>
 
       <!-- Delivery Charges -->
-      <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col justify-between">
+      <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 flex flex-col justify-between">
         <div>
-          <span class="text-[#E4A025] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 02</span>
+          <span class="text-[#007BA7] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 02</span>
           <h2 class="text-lg font-black text-[#0B2046] uppercase mb-3">Delivery Charges</h2>
           <p class="text-slate-600 text-sm font-medium leading-relaxed mb-5">
             Applicable delivery fees are communicated alongside your official quotation based on destination and order specifications.
           </p>
         </div>
-        <div class="bg-slate-50 border border-dashed border-[#E4A025] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
+        <div class="bg-[#F0FBFF] border border-dashed border-[#0099CC] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Nairobi Fee Schedule:</strong> [Insert confirmed Nairobi delivery rate or threshold]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Upcountry Freight / Courier Fee:</strong> [Insert confirmed upcountry shipping rate policy]</p>
@@ -157,15 +162,15 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
       </section>
 
       <!-- Estimated Delivery Timelines -->
-      <section class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col justify-between">
+      <section class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] p-8 flex flex-col justify-between">
         <div>
-          <span class="text-[#E4A025] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 03</span>
+          <span class="text-[#007BA7] font-black text-[10px] tracking-[0.25em] uppercase block mb-2">Step 03</span>
           <h2 class="text-lg font-black text-[#0B2046] uppercase mb-3">Estimated Delivery Timelines</h2>
           <p class="text-slate-600 text-sm font-medium leading-relaxed mb-5">
             Estimated arrival windows depend on dispatch confirmation, destination distance, and carrier schedules.
           </p>
         </div>
-        <div class="bg-slate-50 border border-dashed border-[#E4A025] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
+        <div class="bg-[#F0FBFF] border border-dashed border-[#0099CC] rounded-2xl p-4 space-y-2 text-xs text-slate-700">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Within Nairobi:</strong> [Insert confirmed Nairobi delivery timeframe]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Upcountry Destinations:</strong> [Insert confirmed upcountry transit timeframe]</p>
@@ -174,19 +179,19 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
     </div>
 
     <!-- Collection & Pickup Arrangements -->
-    <section class="bg-slate-100 border border-slate-200 rounded-3xl p-8 sm:p-10 mb-10">
+    <section class="bg-[#E6F9FF] border border-[#BAE6FD] rounded-3xl p-8 sm:p-10 mb-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7">
-          <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase block mb-2">Counter Pickup</span>
+          <span class="text-[#007BA7] font-black text-xs tracking-[0.3em] uppercase block mb-2">Counter Pickup</span>
           <h2 class="text-2xl font-black text-[#0B2046] uppercase mb-3">Collection and Pickup Arrangements</h2>
-          <p class="text-slate-600 text-sm font-medium leading-relaxed mb-4">
-            Customers wishing to collect orders directly can arrange pickup at <strong class="text-[#0B2046]">Nairobi, KTDA PLAZA</strong>. Please confirm stock readiness with our sales team via phone or WhatsApp before sending a rider or arriving for collection.
+          <p class="text-slate-700 text-sm font-medium leading-relaxed mb-4">
+            Customers wishing to collect orders directly can arrange pickup at <strong class="text-[#0B2046]">Latema Road, 00400</strong>. Please confirm stock readiness with our sales team via phone or WhatsApp before sending a rider or arriving for collection.
           </p>
         </div>
 
-        <div class="lg:col-span-5 bg-white border border-dashed border-[#E4A025] rounded-2xl p-5 space-y-2 text-xs text-slate-700 shadow-sm">
+        <div class="lg:col-span-5 bg-white border border-dashed border-[#0099CC] rounded-2xl p-5 space-y-2 text-xs text-slate-700 shadow-sm">
           <p class="font-black text-[#0B2046] uppercase tracking-wider">[Editable Placeholder — Pickup Desk Details]</p>
-          <p class="font-medium"><strong class="text-[#0B2046]">Pickup Point:</strong> Nairobi, KTDA PLAZA ([Insert floor / suite number])</p>
+          <p class="font-medium"><strong class="text-[#0B2046]">Pickup Point:</strong> Latema Road, 00400 ([Insert building / floor / suite number])</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Collection Hours:</strong> [Insert confirmed pickup days and hours]</p>
           <p class="font-medium"><strong class="text-[#0B2046]">Pickup Requirements:</strong> [Insert ID / order reference / rider authorization policy]</p>
         </div>
@@ -194,13 +199,13 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
     </section>
 
     <!-- Delivery Inquiries and Customer Support -->
-    <section class="bg-[#0B2046] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border-t-4 border-[#E4A025]">
+    <section class="bg-[#0B2046] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border-t-4 border-[#00CCFF]">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
         <div class="max-w-2xl">
-          <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase block mb-2">Customer Support</span>
+          <span class="text-[#00CCFF] font-black text-xs tracking-[0.3em] uppercase block mb-2">Customer Support</span>
           <h2 class="text-2xl sm:text-3xl font-black uppercase mb-3">Delivery Inquiries and Customer Support</h2>
           <p class="text-slate-300 text-sm font-medium leading-relaxed">
-            Need to confirm delivery fees, arrange pickup at KTDA Plaza, or check dispatch details for an active quotation? Reach our team directly by WhatsApp, telephone, or through our inquiry channels.
+            Need to confirm delivery fees, arrange pickup at Latema Road, 00400, or check dispatch details for an active quotation? Reach our team directly by WhatsApp, telephone, or email (<a href="mailto:info@paremagencies.co.ke" class="text-[#00CCFF] underline">info@paremagencies.co.ke</a>).
           </p>
         </div>
 
@@ -214,19 +219,19 @@ const waDeliveryUrl = `https://wa.me/254185176133?text=${encodeURIComponent(
             <svg aria-hidden="true" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            <span>WhatsApp 0185176133</span>
+            <span>WhatsApp 0722 694443</span>
           </a>
 
           <a
-            href="tel:0185176133"
-            class="bg-[#E4A025] hover:bg-yellow-500 text-[#0B2046] font-black px-7 py-4 rounded-xl text-xs uppercase tracking-wider shadow-xl transition-all flex items-center justify-center"
+            href="tel:+254722694443"
+            class="bg-[#00CCFF] hover:bg-[#38D8FF] text-[#0B2046] font-black px-7 py-4 rounded-xl text-xs uppercase tracking-wider shadow-xl transition-all flex items-center justify-center"
           >
-            Call 0185176133
+            Call +254 722 694443
           </a>
 
           <a
             href="/contact/"
-            class="bg-white/10 hover:bg-white/20 text-white font-black px-7 py-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center border border-white/15"
+            class="bg-white/10 hover:bg-white/20 text-white font-black px-7 py-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center border border-[#00CCFF]/30"
           >
             Contact Page
           </a>

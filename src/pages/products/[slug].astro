@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -9,23 +9,22 @@ import { getImageDimensions } from '../../data/products';
 export const prerender = false;
 
 const slug = Astro.params.slug || '';
-const product = await getProductBySlug(slug);
+const product = getProductBySlug(slug);
 
 if (!product) {
   return new Response('Product not found', { status: 404 });
 }
 
-const allProducts = await getAllProducts();
-const relatedProducts = allProducts
+const relatedProducts = getAllProducts()
   .filter((p) => p.brand === product.brand && p.id !== product.id)
   .slice(0, 4);
 
 const mainDims = getImageDimensions(product.imageUrl);
-const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello Amanah Toners, I would like to inquire about ${product.brand} ${product.model} (Part: ${product.partNumber || 'N/A'}). Please provide a price quotation and delivery options for Nairobi.`)}`;
+const waOrderUrl = `https://wa.me/254722694443?text=${encodeURIComponent(`Hello Parem Toners, I would like to inquire about ${product.brand} ${product.model} (Part: ${product.partNumber || 'N/A'}). Please provide a price quotation and delivery options for Nairobi.`)}`;
 ---
 
 <Layout 
-  title={`${product.model} (${product.brand}) â€” Amanah Toners Kenya`} 
+  title={`${product.model} (${product.brand}) — Parem Toners Kenya`} 
   description={product.description}
 >
   <Header slot="header" />
@@ -38,11 +37,11 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
       { name: product.model }
     ]} />
 
-    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 p-6 sm:p-10 lg:p-12 mb-16">
+    <div class="bg-white rounded-3xl shadow-xl border border-[#BAE6FD] overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 p-6 sm:p-10 lg:p-12 mb-16">
       <!-- Image Gallery Column -->
-      <div class="lg:col-span-6 flex flex-col items-center justify-center bg-slate-50 rounded-2xl p-8 border border-slate-100 relative">
+      <div class="lg:col-span-6 flex flex-col items-center justify-center bg-[#F0FBFF] rounded-2xl p-8 border border-[#BAE6FD]/80 relative">
         <div class="absolute top-6 left-6">
-          <span class="bg-[#0B2046] text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-md">
+          <span class="bg-[#0B2046] text-[#00CCFF] text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-md border border-[#00CCFF]/30">
             {product.brand}
           </span>
         </div>
@@ -54,9 +53,9 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
           decoding="async"
           class="max-h-[420px] w-full object-contain my-auto" 
         />
-        <div class="mt-4 pt-4 border-t border-slate-200/60 w-full flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+        <div class="mt-4 pt-4 border-t border-[#BAE6FD]/80 w-full flex items-center justify-between text-[11px] font-bold text-slate-600 uppercase tracking-wider">
           <span>Official Packaging</span>
-          <span class="text-[#0B2046] font-black">100% Genuine Certified</span>
+          <span class="text-[#007BA7] font-black">100% Genuine Certified</span>
         </div>
       </div>
 
@@ -65,10 +64,10 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
         <div>
           <!-- Unboxed metadata line -->
           <div class="flex items-center space-x-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-            <span class="text-[#0B2046] font-black">{product.category}</span>
-            <span aria-hidden="true">Â·</span>
-            <span class="text-emerald-600 font-black">In Stock ({product.stock} units)</span>
-            <span aria-hidden="true">Â·</span>
+            <span class="text-[#007BA7] font-black">{product.category}</span>
+            <span aria-hidden="true">·</span>
+            <span class="text-emerald-700 font-black">In Stock ({product.stock} units)</span>
+            <span aria-hidden="true">·</span>
             <span>OEM Original</span>
           </div>
 
@@ -88,9 +87,9 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
 
           <!-- Compatible Printers structured box -->
           {product.compatiblePrinters && (
-            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 mb-6">
+            <div class="bg-[#F0FBFF] p-5 rounded-2xl border border-[#BAE6FD] mb-6">
               <div class="flex items-center space-x-2 text-[#0B2046] font-black text-xs uppercase tracking-wider mb-2">
-                <svg aria-hidden="true" class="w-4 h-4 text-[#E4A025]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                <svg aria-hidden="true" class="w-4 h-4 text-[#007BA7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                 <span>Compatible Printer Models</span>
               </div>
               <p class="text-xs sm:text-sm font-bold text-slate-700 leading-relaxed">
@@ -101,17 +100,17 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
 
           <!-- Guarantee Strip -->
           <div class="grid grid-cols-2 gap-3 mb-8">
-            <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50 flex items-center space-x-3">
-              <svg aria-hidden="true" class="w-5 h-5 text-[#E4A025] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="p-3.5 rounded-xl border border-[#BAE6FD] bg-[#F0FBFF] flex items-center space-x-3">
+              <svg aria-hidden="true" class="w-5 h-5 text-[#007BA7] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               <div>
-                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Quality</p>
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Quality</p>
                 <p class="text-xs font-black text-[#0B2046] uppercase">100% Genuine</p>
               </div>
             </div>
-            <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50 flex items-center space-x-3">
-              <svg aria-hidden="true" class="w-5 h-5 text-[#0B2046] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <div class="p-3.5 rounded-xl border border-[#BAE6FD] bg-[#F0FBFF] flex items-center space-x-3">
+              <svg aria-hidden="true" class="w-5 h-5 text-[#007BA7] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               <div>
-                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Dispatch</p>
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Dispatch</p>
                 <p class="text-xs font-black text-[#0B2046] uppercase">Nairobi Same-Day</p>
               </div>
             </div>
@@ -119,14 +118,14 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
         </div>
 
         <!-- Purchase & Inquiry Actions -->
-        <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-4">
+        <div class="pt-6 border-t border-[#E6F9FF] flex flex-col sm:flex-row gap-4">
           <button
             type="button"
             id="add-to-inquiry-btn"
             data-product={JSON.stringify(product)}
-            class="flex-1 bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-6 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all text-center flex items-center justify-center space-x-2 active:scale-95 cursor-pointer"
+            class="flex-1 bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-6 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all text-center flex items-center justify-center space-x-2 active:scale-95 cursor-pointer border border-[#00CCFF]/30"
           >
-            <svg aria-hidden="true" class="w-4 h-4 text-[#E4A025]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <svg aria-hidden="true" class="w-4 h-4 text-[#00CCFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             <span id="btn-text">Add to Inquiry List</span>
           </button>
           
@@ -153,7 +152,7 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
               Complementary toners and consumables
             </p>
           </div>
-          <a href={`/brands/${product.brand.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`} class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#E4A025] transition-colors">
+          <a href={`/brands/${product.brand.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`} class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#007BA7] transition-colors">
             All {product.brand} &rarr;
           </a>
         </div>
@@ -162,8 +161,8 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
           {relatedProducts.map((rel) => {
             const relDims = getImageDimensions(rel.imageUrl);
             return (
-              <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col border border-slate-100 group transition-all hover:-translate-y-1">
-                <div class="aspect-square bg-slate-50 relative overflow-hidden flex items-center justify-center p-4">
+              <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col border border-[#BAE6FD]/80 hover:border-[#00CCFF] group transition-all hover:-translate-y-1">
+                <div class="aspect-square bg-[#F0FBFF] relative overflow-hidden flex items-center justify-center p-4">
                   <img
                     src={rel.imageUrl}
                     alt={rel.model}
@@ -176,14 +175,14 @@ const waOrderUrl = `https://wa.me/254185176133?text=${encodeURIComponent(`Hello 
                 </div>
                 <div class="p-5 flex flex-col flex-1">
                   <a href={`/products/${rel.slug}/`}>
-                    <h3 class="text-sm font-black text-[#0B2046] uppercase hover:text-[#E4A025] transition-colors leading-snug mb-1">
+                    <h3 class="text-sm font-black text-[#0B2046] uppercase hover:text-[#007BA7] transition-colors leading-snug mb-1">
                       {rel.model}
                     </h3>
                   </a>
-                  <p class="text-xs text-slate-500 line-clamp-2 mb-4 font-medium">{rel.description}</p>
-                  <div class="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-[10px] font-black text-emerald-600 uppercase">In Stock</span>
-                    <a href={`/products/${rel.slug}/`} class="text-xs font-black text-[#0B2046] hover:text-[#E4A025] uppercase tracking-wider">
+                  <p class="text-xs text-slate-600 line-clamp-2 mb-4 font-medium">{rel.description}</p>
+                  <div class="mt-auto pt-3 border-t border-[#E6F9FF] flex items-center justify-between">
+                    <span class="text-[10px] font-black text-emerald-700 uppercase">In Stock</span>
+                    <a href={`/products/${rel.slug}/`} class="text-xs font-black text-[#0B2046] hover:text-[#007BA7] uppercase tracking-wider">
                       View &rarr;
                     </a>
                   </div>

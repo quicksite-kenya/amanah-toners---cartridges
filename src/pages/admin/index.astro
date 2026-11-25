@@ -10,14 +10,14 @@ export const prerender = false;
 const assetPaths = Object.keys(IMAGE_DIMENSIONS);
 ---
 
-<Layout title="Admin Portal — Amanah Toners & Cartridges" noindex={true}>
+<Layout title="Admin Portal — Parem Toners" noindex={true}>
   <Header slot="header" />
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
     <Breadcrumb items={[
       { name: 'Admin Portal' }
     ]} />
-    <h1 class="sr-only">Amanah Admin Portal</h1>
+    <h1 class="sr-only">Parem Toners Admin Portal</h1>
   </div>
 
   <div id="admin-root" data-assets={JSON.stringify(assetPaths)}>
@@ -71,13 +71,13 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
   let statusBannerIsError = false;
 
   function safeAssetUrl(url: string | undefined): string {
-    if (typeof url !== 'string') return '/logo.png';
+    if (typeof url !== 'string') return '/assets/aistudio/parem3_8db6bee6.jpg';
     const trimmed = url.trim();
-    if (trimmed === '/logo.png') return trimmed;
+    if (trimmed === '/logo.png') return '/assets/aistudio/parem3_8db6bee6.jpg';
     if (/^\/assets\/[a-zA-Z0-9._/-]+$/.test(trimmed) && !trimmed.includes('..')) {
       return trimmed;
     }
-    return '/logo.png';
+    return '/assets/aistudio/parem3_8db6bee6.jpg';
   }
 
   function el<K extends keyof HTMLElementTagNameMap>(
@@ -134,10 +134,10 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
 
   function renderAuthScreen(root: HTMLElement) {
     const outer = el('div', 'max-w-md mx-auto px-4 py-16 sm:py-24');
-    const card = el('div', 'bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border-t-4 border-[#0B2046]');
+    const card = el('div', 'bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#BAE6FD] border-t-4 border-t-[#00CCFF]');
 
     const header = el('div', 'text-center mb-8');
-    const iconBox = el('div', 'w-16 h-16 bg-[#0B2046]/5 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#0B2046]');
+    const iconBox = el('div', 'w-16 h-16 bg-[#E6F9FF] border border-[#BAE6FD] rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#007BA7]');
     iconBox.appendChild(
       createSvg(['M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'], 'w-8 h-8')
     );
@@ -149,7 +149,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     );
     const sub = el(
       'p',
-      'text-xs text-slate-400 font-bold uppercase tracking-widest mt-1',
+      'text-xs text-[#007BA7] font-bold uppercase tracking-widest mt-1',
       adminStatus.needsSetup ? 'Create Initial Admin Password' : 'Authorized Personnel Only'
     );
     header.append(iconBox, heading, sub);
@@ -161,7 +161,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     if (adminStatus.needsSetup) {
       const info = el(
         'p',
-        'text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200',
+        'text-xs text-slate-600 font-medium leading-relaxed bg-[#F0FBFF] p-4 rounded-xl border border-[#BAE6FD]',
         'No server passcode is configured yet. Set a strong admin password (minimum 8 characters) to claim portal access, or configure ADMIN_PASSCODE in server environment settings.'
       );
       form.appendChild(info);
@@ -169,7 +169,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       const passWrap = el('div');
       const passLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'New Admin Password *');
       passLabel.htmlFor = 'setup-pass';
-      const passInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      const passInput = el('input', 'w-full px-4 py-3 bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#00CCFF]');
       passInput.type = 'password';
       passInput.id = 'setup-pass';
       passInput.required = true;
@@ -181,7 +181,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       const confirmWrap = el('div');
       const confirmLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Confirm Password *');
       confirmLabel.htmlFor = 'setup-pass-confirm';
-      const confirmInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      const confirmInput = el('input', 'w-full px-4 py-3 bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#00CCFF]');
       confirmInput.type = 'password';
       confirmInput.id = 'setup-pass-confirm';
       confirmInput.required = true;
@@ -192,7 +192,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
 
       const submitBtn = el(
         'button',
-        'w-full bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer',
+        'w-full bg-[#0B2046] hover:bg-[#15346B] text-[#00CCFF] font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer border border-[#00CCFF]/30',
         'Create Admin Access'
       );
       submitBtn.type = 'submit';
@@ -248,7 +248,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       const passWrap = el('div');
       const passLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Admin Password');
       passLabel.htmlFor = 'admin-pass';
-      const passInput = el('input', 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#0B2046]');
+      const passInput = el('input', 'w-full px-4 py-3 bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl outline-none text-sm font-bold focus:ring-2 focus:ring-[#00CCFF]');
       passInput.type = 'password';
       passInput.id = 'admin-pass';
       passInput.required = true;
@@ -258,7 +258,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
 
       const submitBtn = el(
         'button',
-        'w-full bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer',
+        'w-full bg-[#0B2046] hover:bg-[#15346B] text-[#00CCFF] font-black py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all cursor-pointer border border-[#00CCFF]/30',
         'Secure Login'
       );
       submitBtn.type = 'submit';
@@ -304,8 +304,8 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       });
     }
 
-    const backWrap = el('div', 'mt-8 pt-6 border-t border-slate-100 text-center');
-    const backLink = el('a', 'text-xs font-bold text-slate-400 hover:text-[#0B2046] uppercase tracking-widest transition-colors', '\u2190 Back to Website');
+    const backWrap = el('div', 'mt-8 pt-6 border-t border-[#BAE6FD]/60 text-center');
+    const backLink = el('a', 'text-xs font-bold text-[#007BA7] hover:text-[#0B2046] uppercase tracking-widest transition-colors', '\u2190 Back to Website');
     backLink.href = '/';
     backWrap.appendChild(backLink);
 
@@ -339,12 +339,12 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const rows: HTMLTableRowElement[] = [];
 
     for (const p of filtered) {
-      const tr = el('tr', 'hover:bg-slate-50 transition-colors');
+      const tr = el('tr', 'hover:bg-[#F0FBFF]/60 transition-colors');
 
       // Product Info cell
       const tdInfo = el('td', 'px-6 py-4 whitespace-nowrap');
       const flexInfo = el('div', 'flex items-center');
-      const thumbWrap = el('div', 'h-12 w-12 flex-shrink-0 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden border border-slate-100 p-1');
+      const thumbWrap = el('div', 'h-12 w-12 flex-shrink-0 bg-[#F0FBFF] rounded-xl flex items-center justify-center overflow-hidden border border-[#BAE6FD] p-1');
       const img = el('img', 'h-full w-full object-contain');
       img.src = safeAssetUrl(p.imageUrl);
       img.alt = p.model;
@@ -383,7 +383,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       // Actions cell
       const tdActions = el('td', 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3');
 
-      const editBtn = el('button', 'text-[#0B2046] hover:text-[#15346B] font-black text-xs uppercase cursor-pointer', 'Edit');
+      const editBtn = el('button', 'text-[#007BA7] hover:text-[#0B2046] font-black text-xs uppercase cursor-pointer', 'Edit');
       editBtn.type = 'button';
       editBtn.setAttribute('aria-label', `Edit ${p.model}`);
       editBtn.addEventListener('click', () => {
@@ -426,7 +426,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-labelledby', 'product-modal-title');
 
-    const dialog = el('div', 'bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative border-t-4 border-[#E4A025] my-8');
+    const dialog = el('div', 'bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative border border-[#BAE6FD] border-t-4 border-t-[#00CCFF] my-8');
 
     const closeBtn = el('button', 'absolute top-6 right-6 text-slate-400 hover:text-slate-600 cursor-pointer');
     closeBtn.type = 'button';
@@ -452,7 +452,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const brandWrap = el('div');
     const brandLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Brand *');
     brandLabel.htmlFor = 'form-brand';
-    const brandSelect = el('select', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const brandSelect = el('select', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     brandSelect.id = 'form-brand';
     brandSelect.required = true;
     const brandChoices = ['HP', 'Canon', 'Kyocera', 'Konica Minolta'];
@@ -471,7 +471,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const modelWrap = el('div');
     const modelLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Model Name *');
     modelLabel.htmlFor = 'form-model';
-    const modelInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const modelInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     modelInput.id = 'form-model';
     modelInput.type = 'text';
     modelInput.required = true;
@@ -483,7 +483,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const partWrap = el('div');
     const partLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Part Number / Cartridge Code');
     partLabel.htmlFor = 'form-part';
-    const partInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const partInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     partInput.id = 'form-part';
     partInput.type = 'text';
     partInput.placeholder = 'e.g. CF259A';
@@ -494,7 +494,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const stockWrap = el('div');
     const stockLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Stock Level *');
     stockLabel.htmlFor = 'form-stock';
-    const stockInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const stockInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     stockInput.id = 'form-stock';
     stockInput.type = 'number';
     stockInput.min = '0';
@@ -508,7 +508,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const catWrap = el('div');
     const catLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Category *');
     catLabel.htmlFor = 'form-category';
-    const catSelect = el('select', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const catSelect = el('select', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     catSelect.id = 'form-category';
     for (const c of ['Toner Cartridges', 'Ink Cartridges', 'Printers', 'Printer Accessories']) {
       const opt = el('option', undefined, c);
@@ -522,7 +522,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const printersWrap = el('div');
     const printersLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Compatible Printers');
     printersLabel.htmlFor = 'form-printers';
-    const printersInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const printersInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     printersInput.id = 'form-printers';
     printersInput.type = 'text';
     printersInput.placeholder = 'e.g. HP LaserJet Pro M404, M428';
@@ -533,7 +533,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const descWrap = el('div');
     const descLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Description');
     descLabel.htmlFor = 'form-desc';
-    const descInput = el('textarea', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const descInput = el('textarea', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     descInput.id = 'form-desc';
     descInput.rows = 3;
     descInput.placeholder = 'Product details, page yield, and specs...';
@@ -544,7 +544,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const imgWrap = el('div');
     const imgLabel = el('label', 'block text-xs font-black text-slate-700 uppercase tracking-wider mb-2', 'Image Path (Local /assets/... or /logo.png)');
     imgLabel.htmlFor = 'form-image';
-    const imgInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#0B2046] outline-none font-bold text-sm');
+    const imgInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 px-4 focus:ring-2 focus:ring-[#00CCFF] outline-none font-bold text-sm');
     imgInput.id = 'form-image';
     imgInput.type = 'text';
     imgInput.setAttribute('list', 'amanah-image-options');
@@ -564,8 +564,8 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const modalErr = el('p', 'hidden text-red-600 text-xs font-bold');
     modalErr.setAttribute('role', 'alert');
 
-    const footerActions = el('div', 'flex justify-end space-x-4 pt-4 border-t border-slate-100');
-    const cancelBtn = el('button', 'px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black rounded-xl uppercase text-xs tracking-wider cursor-pointer', 'Cancel');
+    const footerActions = el('div', 'flex justify-end space-x-4 pt-4 border-t border-[#BAE6FD]/60');
+    const cancelBtn = el('button', 'px-6 py-3 bg-[#E6F9FF] hover:bg-[#CCF3FF] text-[#0B2046] font-black rounded-xl uppercase text-xs tracking-wider cursor-pointer', 'Cancel');
     cancelBtn.type = 'button';
     cancelBtn.addEventListener('click', () => {
       isModalOpen = false;
@@ -573,7 +573,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       render();
     });
 
-    const saveBtn = el('button', 'px-8 py-3 bg-[#0B2046] hover:bg-[#15346B] text-white font-black rounded-xl uppercase text-xs tracking-[0.2em] shadow-xl cursor-pointer', 'Save Product');
+    const saveBtn = el('button', 'px-8 py-3 bg-[#0B2046] hover:bg-[#15346B] text-[#00CCFF] font-black rounded-xl uppercase text-xs tracking-[0.2em] shadow-xl cursor-pointer border border-[#00CCFF]/30', 'Save Product');
     saveBtn.type = 'submit';
     footerActions.append(cancelBtn, saveBtn);
 
@@ -728,16 +728,16 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     const outer = el('div', 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8');
 
     // Admin Header Banner
-    const banner = el('div', 'flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-[#0B2046] p-8 rounded-3xl text-white shadow-2xl relative overflow-hidden');
+    const banner = el('div', 'flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-[#0B2046] p-8 rounded-3xl text-white shadow-2xl relative overflow-hidden border-t-4 border-[#00CCFF]');
     const bannerLeft = el('div', 'relative z-10');
     bannerLeft.append(
-      el('span', 'bg-[#E4A025] text-[#0B2046] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2', 'Authenticated Session'),
+      el('span', 'bg-[#00CCFF] text-[#0B2046] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2', 'Authenticated Session'),
       el('h2', 'text-3xl font-black uppercase tracking-tight', 'Inventory Management'),
-      el('p', 'text-xs text-slate-300 uppercase tracking-widest mt-1', 'Amanah Toners & Cartridges Nairobi • KTDA Plaza')
+      el('p', 'text-xs text-[#BAE6FD] uppercase tracking-widest mt-1', 'Parem Toners • Latema Road, 00400')
     );
 
     const bannerActions = el('div', 'flex items-center space-x-4 relative z-10');
-    const addBtn = el('button', 'bg-[#E4A025] hover:bg-yellow-500 text-[#0B2046] font-black px-6 py-3 rounded-xl transition-all shadow-xl flex items-center space-x-2 text-xs uppercase tracking-wider cursor-pointer');
+    const addBtn = el('button', 'bg-[#00CCFF] hover:bg-[#38D8FF] text-[#0B2046] font-black px-6 py-3 rounded-xl transition-all shadow-xl flex items-center space-x-2 text-xs uppercase tracking-wider cursor-pointer');
     addBtn.type = 'button';
     addBtn.appendChild(createSvg(['M12 4v16m8-8H4'], 'w-4 h-4'));
     addBtn.appendChild(el('span', undefined, 'Add Product'));
@@ -747,7 +747,7 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
       render();
     });
 
-    const logoutBtn = el('button', 'bg-white/10 hover:bg-white/20 text-white font-black px-6 py-3 rounded-xl transition-all text-xs uppercase tracking-wider cursor-pointer', 'Logout');
+    const logoutBtn = el('button', 'bg-white/10 hover:bg-white/20 text-white font-black px-6 py-3 rounded-xl transition-all text-xs uppercase tracking-wider cursor-pointer border border-[#00CCFF]/25', 'Logout');
     logoutBtn.type = 'button';
     logoutBtn.addEventListener('click', () => {
       authToken = null;
@@ -782,14 +782,14 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     }
 
     // Search & Stats Bar
-    const controls = el('div', 'bg-white p-6 rounded-2xl shadow-xl border border-slate-100 mb-8 flex flex-col md:flex-row gap-4 items-center justify-between');
+    const controls = el('div', 'bg-white p-6 rounded-2xl shadow-xl border border-[#BAE6FD] mb-8 flex flex-col md:flex-row gap-4 items-center justify-between');
     const searchWrap = el('div', 'relative w-full md:w-96');
     const searchLabel = el('label', 'sr-only', 'Search inventory by model, brand, category, or part number');
     searchLabel.htmlFor = 'admin-search-input';
     const iconOverlay = el('div', 'absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none');
-    iconOverlay.appendChild(createSvg(['M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'], 'h-4 w-4 text-slate-400'));
+    iconOverlay.appendChild(createSvg(['M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'], 'h-4 w-4 text-[#007BA7]'));
 
-    const searchInput = el('input', 'w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-xs font-black tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-[#0B2046]');
+    const searchInput = el('input', 'w-full bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 pl-12 pr-4 text-xs font-black tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-[#00CCFF]');
     searchInput.type = 'text';
     searchInput.id = 'admin-search-input';
     searchInput.placeholder = 'SEARCH BY MODEL, BRAND, CATEGORY, PART #...';
@@ -802,19 +802,19 @@ const assetPaths = Object.keys(IMAGE_DIMENSIONS);
     outer.appendChild(controls);
 
     // Products Table
-    const tableCard = el('div', 'bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100');
+    const tableCard = el('div', 'bg-white rounded-2xl shadow-xl overflow-hidden border border-[#BAE6FD]');
     const tableScroll = el('div', 'overflow-x-auto');
-    const table = el('table', 'min-w-full divide-y divide-slate-200');
-    const thead = el('thead', 'bg-slate-50');
+    const table = el('table', 'min-w-full divide-y divide-[#BAE6FD]/60');
+    const thead = el('thead', 'bg-[#F0FBFF]');
     const headRow = el('tr');
-    const th1 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Product Info');
-    const th2 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Category');
-    const th3 = el('th', 'px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-wider', 'Stock Status');
-    const th4 = el('th', 'px-6 py-4 text-right text-xs font-black text-slate-500 uppercase tracking-wider', 'Actions');
+    const th1 = el('th', 'px-6 py-4 text-left text-xs font-black text-[#007BA7] uppercase tracking-wider', 'Product Info');
+    const th2 = el('th', 'px-6 py-4 text-left text-xs font-black text-[#007BA7] uppercase tracking-wider', 'Category');
+    const th3 = el('th', 'px-6 py-4 text-left text-xs font-black text-[#007BA7] uppercase tracking-wider', 'Stock Status');
+    const th4 = el('th', 'px-6 py-4 text-right text-xs font-black text-[#007BA7] uppercase tracking-wider', 'Actions');
     headRow.append(th1, th2, th3, th4);
     thead.appendChild(headRow);
 
-    const tbody = el('tbody', 'bg-white divide-y divide-slate-100');
+    const tbody = el('tbody', 'bg-white divide-y divide-[#BAE6FD]/40');
     table.append(thead, tbody);
     tableScroll.appendChild(table);
     tableCard.appendChild(tableScroll);

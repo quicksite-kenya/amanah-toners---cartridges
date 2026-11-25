@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -7,7 +7,7 @@ import { getImageDimensions } from '../data/products';
 
 export const prerender = false;
 
-const allProducts = await getAllProducts();
+const allProducts = getAllProducts();
 const featuredProducts = allProducts.slice(0, 4);
 
 const brandMeta: Record<string, string> = {
@@ -37,31 +37,31 @@ const categoryList = [
 ---
 
 <Layout 
-  title="Amanah Toners & Cartridges â€” Trust Every Print | Nairobi, Kenya"
-  description="Kenya's premier supplier of 100% original HP, Canon, Kyocera, and Konica Minolta toner cartridges. Same-day delivery from KTDA Plaza, Nairobi."
+  title="Parem Toners — Trust Every Print | Nairobi, Kenya"
+  description="Kenya's premier supplier of 100% original HP, Canon, Kyocera, and Konica Minolta toner cartridges. Same-day delivery from Latema Road, 00400."
 >
   <Header slot="header" />
 
   <!-- Hero Section -->
-  <section class="relative min-h-[640px] flex items-center bg-white overflow-hidden border-b border-slate-100">
-    <!-- Subtle CMYK Brand Accents -->
-    <div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
-      <div class="absolute top-[10%] right-[-10%] w-[150%] h-20 bg-[#00AEEF] -rotate-45 blur-3xl"></div>
-      <div class="absolute top-[30%] right-[-10%] w-[150%] h-20 bg-[#EC008C] -rotate-45 blur-3xl"></div>
-      <div class="absolute top-[50%] right-[-10%] w-[150%] h-20 bg-[#FFF200] -rotate-45 blur-3xl"></div>
+  <section class="relative min-h-[640px] flex items-center bg-gradient-to-br from-[#EAF9FF] via-[#F7FCFF] to-white overflow-hidden border-b border-[#BAE6FD]">
+    <!-- Subtle Logo Light Blue & Print Accents -->
+    <div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+      <div class="absolute top-[8%] right-[-10%] w-[140%] h-24 bg-[#00CCFF] -rotate-45 blur-3xl"></div>
+      <div class="absolute top-[36%] right-[-10%] w-[140%] h-20 bg-[#38BDF8] -rotate-45 blur-3xl"></div>
+      <div class="absolute top-[60%] right-[-10%] w-[140%] h-16 bg-[#00CCFF]/60 -rotate-45 blur-3xl"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col md:flex-row items-center justify-between py-16 md:py-24">
       <!-- Left Hero Column -->
       <div class="md:w-3/5 text-center md:text-left mb-12 md:mb-0">
-        <div class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-100 rounded-full mb-6">
-          <span class="w-2 h-2 rounded-full bg-[#E4A025]"></span>
-          <span class="text-[10px] font-black text-[#0B2046] uppercase tracking-widest">Kenya's Premier Toner Supplier â€¢ KTDA Plaza Nairobi</span>
+        <div class="inline-flex items-center space-x-2 px-4 py-2 bg-[#E6F9FF] border border-[#00CCFF]/40 rounded-full mb-6">
+          <span class="w-2 h-2 rounded-full bg-[#00CCFF]"></span>
+          <span class="text-[10px] font-black text-[#0B2046] uppercase tracking-widest">Kenya's Premier Toner Supplier • Latema Road, 00400</span>
         </div>
         
         <h1 class="text-5xl sm:text-6xl md:text-8xl font-black text-[#0B2046] leading-[0.9] mb-6 uppercase italic tracking-tighter">
           Trust Every<br/>
-          <span class="text-[#E4A025]">Print</span>
+          <span class="text-[#0099CC]">Print</span>
         </h1>
 
         <p class="text-slate-600 text-base sm:text-lg font-medium max-w-xl mb-8 leading-relaxed">
@@ -72,27 +72,27 @@ const categoryList = [
         <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
           <a
             href="/shop/"
-            class="w-full sm:w-auto bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-10 rounded-xl flex items-center justify-center shadow-xl transition-all uppercase tracking-[0.2em] text-xs"
+            class="w-full sm:w-auto bg-[#0B2046] hover:bg-[#15346B] text-white font-black py-4 px-10 rounded-xl flex items-center justify-center shadow-xl transition-all uppercase tracking-[0.2em] text-xs border border-[#00CCFF]/30"
           >
             <span>Explore Catalog</span>
-            <svg aria-hidden="true" class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg aria-hidden="true" class="ml-2 w-4 h-4 text-[#00CCFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
           <a 
             href="/inquiry/" 
-            class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-[#0B2046] font-black py-4 px-8 rounded-xl flex items-center justify-center uppercase tracking-widest text-xs transition-all border border-slate-200"
+            class="w-full sm:w-auto bg-[#E6F9FF] hover:bg-[#CCF3FF] text-[#0B2046] font-black py-4 px-8 rounded-xl flex items-center justify-center uppercase tracking-widest text-xs transition-all border border-[#00CCFF]/45 shadow-sm"
           >
             Request Quotation
           </a>
         </div>
 
-        <div class="flex items-center justify-center md:justify-start space-x-6 text-xs font-bold text-slate-500 uppercase tracking-wider">
-          <span class="flex items-center text-emerald-600">
+        <div class="flex items-center justify-center md:justify-start space-x-6 text-xs font-bold text-slate-600 uppercase tracking-wider">
+          <span class="flex items-center text-emerald-700">
             <svg aria-hidden="true" class="w-4 h-4 mr-1 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             100% Genuine OEM
           </span>
-          <span class="text-slate-300">Â·</span>
+          <span class="text-[#0099CC]">·</span>
           <span>Nairobi CBD Same-Day</span>
-          <span class="text-slate-300">Â·</span>
+          <span class="text-[#0099CC]">·</span>
           <span>Nationwide Dispatch</span>
         </div>
       </div>
@@ -100,26 +100,26 @@ const categoryList = [
       <!-- Right Visual Column -->
       <div class="md:w-2/5 flex justify-center relative">
         <div class="relative">
-          <div class="relative z-10 bg-white p-10 sm:p-12 rounded-[36px] shadow-[0_30px_70px_-15px_rgba(11,32,70,0.18)] border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+          <div class="relative z-10 bg-white p-8 sm:p-10 rounded-[36px] shadow-[0_30px_70px_-15px_rgba(0,204,255,0.28)] border-2 border-[#00CCFF]/40 transform rotate-2 hover:rotate-0 transition-transform duration-500">
             <img
-              src="/logo.png"
-              alt="Amanah Toners Logo"
-              width="512"
-              height="512"
+              src="/assets/aistudio/parem3_8db6bee6.jpg"
+              alt="Parem Toners Logo"
+              width="196"
+              height="200"
               decoding="async"
-              class="w-60 h-60 object-contain"
+              class="w-60 h-60 object-contain rounded-2xl"
             />
           </div>
           
           <div class="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col space-y-2 z-0">
-            <div class="w-24 h-2.5 bg-[#00AEEF] rounded-full"></div>
-            <div class="w-36 h-2.5 bg-[#EC008C] rounded-full"></div>
-            <div class="w-28 h-2.5 bg-[#FFF200] rounded-full"></div>
+            <div class="w-28 h-2.5 bg-[#00CCFF] rounded-full"></div>
+            <div class="w-36 h-2.5 bg-[#38BDF8] rounded-full"></div>
+            <div class="w-24 h-2.5 bg-[#0B2046] rounded-full"></div>
           </div>
 
-          <div class="absolute -bottom-4 -left-6 bg-[#0B2046] text-white px-5 py-3 rounded-2xl shadow-xl z-20 border-t-2 border-[#E4A025]">
-            <p class="text-[9px] font-black text-[#E4A025] uppercase tracking-widest">Office Location</p>
-            <p class="text-xs font-black uppercase">Nairobi, KTDA PLAZA</p>
+          <div class="absolute -bottom-4 -left-6 bg-[#0B2046] text-white px-5 py-3 rounded-2xl shadow-xl z-20 border-t-2 border-[#00CCFF]">
+            <p class="text-[9px] font-black text-[#00CCFF] uppercase tracking-widest">Office Location</p>
+            <p class="text-xs font-black uppercase">Latema Road, 00400</p>
           </div>
         </div>
       </div>
@@ -127,36 +127,37 @@ const categoryList = [
   </section>
 
   <!-- Info & Features Strip -->
-  <div class="bg-[#0B2046] py-10 text-white relative z-30 border-y border-white/5">
+  <div class="bg-[#0B2046] py-10 text-white relative z-30 border-y border-[#00CCFF]/25">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="flex items-center space-x-4">
-          <div class="bg-[#E4A025] p-3 rounded-xl text-[#0B2046] shrink-0">
+          <div class="bg-[#00CCFF] p-3 rounded-xl text-[#0B2046] shrink-0 shadow-md">
             <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
           </div>
           <div>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">CALL / WHATSAPP ORDERS</p>
-            <a href="tel:0185176133" class="text-xl font-black text-white hover:text-[#E4A025] transition-colors">0185176133</a>
+            <p class="text-[10px] font-black text-[#00CCFF] uppercase tracking-widest">CALL / WHATSAPP ORDERS</p>
+            <a href="tel:+254722694443" class="text-xl font-black text-white hover:text-[#00CCFF] transition-colors">0722 694443</a>
+            <p class="text-[11px] font-bold text-slate-300 mt-0.5">+254 722 694443 • info@paremagencies.co.ke</p>
           </div>
         </div>
         
-        <div class="flex items-center space-x-4 md:border-x border-white/10 md:px-8">
-          <div class="bg-white/10 p-3 rounded-xl text-[#E4A025] shrink-0">
+        <div class="flex items-center space-x-4 md:border-x border-[#00CCFF]/20 md:px-8">
+          <div class="bg-[#00CCFF]/15 p-3 rounded-xl text-[#00CCFF] border border-[#00CCFF]/25 shrink-0">
             <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
           <div>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">HEADQUARTERS</p>
-            <p class="text-sm font-bold text-white">Nairobi, KTDA PLAZA</p>
+            <p class="text-[10px] font-black text-[#00CCFF] uppercase tracking-widest">HEADQUARTERS</p>
+            <p class="text-sm font-bold text-white">Latema Road, 00400</p>
           </div>
         </div>
 
         <div class="flex items-center space-x-4">
-          <div class="bg-white/10 p-3 rounded-xl text-[#E4A025] shrink-0">
+          <div class="bg-[#00CCFF]/15 p-3 rounded-xl text-[#00CCFF] border border-[#00CCFF]/25 shrink-0">
             <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           </div>
           <div>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">GENUINE OEM GUARANTEE</p>
-            <p class="text-xs font-bold text-slate-300">HP â€¢ Canon â€¢ Kyocera â€¢ Konica Minolta</p>
+            <p class="text-[10px] font-black text-[#00CCFF] uppercase tracking-widest">GENUINE OEM GUARANTEE</p>
+            <p class="text-xs font-bold text-slate-300">HP • Canon • Kyocera • Konica Minolta</p>
           </div>
         </div>
       </div>
@@ -167,10 +168,10 @@ const categoryList = [
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10">
       <div>
-        <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase block mb-2">Certified Brands</span>
+        <span class="text-[#007BA7] font-black text-xs tracking-[0.3em] uppercase block mb-2">Certified Brands</span>
         <h2 class="text-3xl font-black text-[#0B2046] uppercase">Shop by Brand</h2>
       </div>
-      <a href="/shop/" class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#E4A025] transition-colors mt-2 sm:mt-0">
+      <a href="/shop/" class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#007BA7] transition-colors mt-2 sm:mt-0">
         Browse All Brands &rarr;
       </a>
     </div>
@@ -179,24 +180,24 @@ const categoryList = [
       {brandList.map(b => (
         <a 
           href={`/brands/${b.slug}/`}
-          class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:border-[#E4A025] hover:-translate-y-1 transition-all group flex flex-col justify-between"
+          class="bg-white p-6 rounded-2xl shadow-lg border border-[#BAE6FD]/80 hover:border-[#00CCFF] hover:-translate-y-1 transition-all group flex flex-col justify-between"
         >
           <div>
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xl font-black text-[#0B2046] group-hover:text-[#E4A025] transition-colors uppercase">
+              <span class="text-xl font-black text-[#0B2046] group-hover:text-[#007BA7] transition-colors uppercase">
                 {b.name}
               </span>
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                 {b.count}
               </span>
             </div>
-            <p class="text-xs text-slate-500 font-medium leading-relaxed mb-6">
+            <p class="text-xs text-slate-600 font-medium leading-relaxed mb-6">
               {b.desc}
             </p>
           </div>
-          <div class="flex items-center text-xs font-black text-[#0B2046] group-hover:text-[#E4A025] uppercase tracking-wider">
+          <div class="flex items-center text-xs font-black text-[#0B2046] group-hover:text-[#007BA7] uppercase tracking-wider">
             <span>Explore {b.name}</span>
-            <svg aria-hidden="true" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <svg aria-hidden="true" class="w-4 h-4 ml-1 text-[#007BA7] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </div>
         </a>
       ))}
@@ -204,14 +205,14 @@ const categoryList = [
   </section>
 
   <!-- Featured Categories Section -->
-  <section class="bg-slate-100 py-16 border-y border-slate-200">
+  <section class="bg-[#E6F9FF] py-16 border-y border-[#BAE6FD]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10">
         <div>
-          <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase block mb-2">Product Categories</span>
+          <span class="text-[#007BA7] font-black text-xs tracking-[0.3em] uppercase block mb-2">Product Categories</span>
           <h2 class="text-3xl font-black text-[#0B2046] uppercase">Consumables & Hardware</h2>
         </div>
-        <a href="/shop/" class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#E4A025] transition-colors mt-2 sm:mt-0">
+        <a href="/shop/" class="text-xs font-black uppercase tracking-wider text-[#0B2046] hover:text-[#007BA7] transition-colors mt-2 sm:mt-0">
           Full Catalog &rarr;
         </a>
       </div>
@@ -220,19 +221,19 @@ const categoryList = [
         {categoryList.map(cat => (
           <a 
             href={`/categories/${cat.slug}/`}
-            class="bg-white p-6 rounded-2xl shadow-md border border-slate-200/80 hover:border-[#0B2046] hover:-translate-y-1 transition-all group flex flex-col justify-between"
+            class="bg-white p-6 rounded-2xl shadow-md border border-[#BAE6FD] hover:border-[#00CCFF] hover:-translate-y-1 transition-all group flex flex-col justify-between"
           >
             <div>
-              <h3 class="text-lg font-black text-[#0B2046] group-hover:text-[#E4A025] transition-colors uppercase mb-2">
+              <h3 class="text-lg font-black text-[#0B2046] group-hover:text-[#007BA7] transition-colors uppercase mb-2">
                 {cat.name}
               </h3>
-              <p class="text-xs text-slate-500 font-medium leading-relaxed mb-6">
+              <p class="text-xs text-slate-600 font-medium leading-relaxed mb-6">
                 {cat.desc}
               </p>
             </div>
-            <div class="flex items-center text-xs font-black text-[#0B2046] group-hover:text-[#E4A025] uppercase tracking-wider">
+            <div class="flex items-center text-xs font-black text-[#0B2046] group-hover:text-[#007BA7] uppercase tracking-wider">
               <span>View Category</span>
-              <svg aria-hidden="true" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              <svg aria-hidden="true" class="w-4 h-4 ml-1 text-[#007BA7] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
           </a>
         ))}
@@ -243,17 +244,17 @@ const categoryList = [
   <!-- Featured Products Grid -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="text-center mb-12">
-      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-2 inline-block">Top Inquiries</span>
+      <span class="text-[#007BA7] font-black text-xs tracking-[0.3em] uppercase mb-2 inline-block">Top Inquiries</span>
       <h2 class="text-3xl md:text-4xl font-black text-[#0B2046] uppercase">Featured Products</h2>
-      <div class="h-1 w-16 bg-[#E4A025] mx-auto mt-4 rounded-full"></div>
+      <div class="h-1 w-16 bg-[#00CCFF] mx-auto mt-4 rounded-full"></div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {featuredProducts.map((product) => {
         const dims = getImageDimensions(product.imageUrl);
         return (
-          <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col border border-slate-100 group transition-all hover:-translate-y-2 duration-300">
-            <div class="aspect-square bg-slate-50 relative overflow-hidden flex items-center justify-center p-6">
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col border border-[#BAE6FD]/80 hover:border-[#00CCFF] group transition-all hover:-translate-y-2 duration-300">
+            <div class="aspect-square bg-[#F0FBFF] relative overflow-hidden flex items-center justify-center p-6">
               <img
                 src={product.imageUrl}
                 alt={product.model}
@@ -264,32 +265,32 @@ const categoryList = [
                 class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
               <div class="absolute top-4 left-4">
-                <span class="bg-[#0B2046] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
+                <span class="bg-[#0B2046] text-[#00CCFF] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md border border-[#00CCFF]/30">
                   {product.brand}
                 </span>
               </div>
             </div>
             <div class="p-6 flex flex-col flex-1">
-              <div class="flex items-center space-x-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <div class="flex items-center space-x-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                 <span>{product.category}</span>
-                <span aria-hidden="true">Â·</span>
-                <span class="text-emerald-600 font-black">In Stock</span>
+                <span aria-hidden="true">·</span>
+                <span class="text-emerald-700 font-black">In Stock</span>
               </div>
               <a href={`/products/${product.slug}/`}>
-                <h3 class="text-base font-black text-[#0B2046] mb-1 uppercase hover:text-[#E4A025] transition-colors leading-snug">
+                <h3 class="text-base font-black text-[#0B2046] mb-1 uppercase hover:text-[#007BA7] transition-colors leading-snug">
                   {product.model}
                 </h3>
               </a>
               {product.partNumber && (
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
                   Part: {product.partNumber}
                 </p>
               )}
-              <p class="text-xs text-slate-500 mb-6 flex-1 line-clamp-2 font-medium leading-relaxed">{product.description}</p>
-              <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 gap-2">
+              <p class="text-xs text-slate-600 mb-6 flex-1 line-clamp-2 font-medium leading-relaxed">{product.description}</p>
+              <div class="flex items-center justify-between mt-auto pt-4 border-t border-[#E6F9FF] gap-2">
                 <a 
                   href={`/products/${product.slug}/`} 
-                  class="bg-slate-100 hover:bg-slate-200 text-[#0B2046] text-xs font-black px-3 py-2.5 rounded-xl transition-all text-center uppercase tracking-wider flex-1"
+                  class="bg-[#E6F9FF] hover:bg-[#CCF3FF] text-[#0B2046] text-xs font-black px-3 py-2.5 rounded-xl transition-all text-center uppercase tracking-wider flex-1 border border-[#00CCFF]/30"
                 >
                   Details
                 </a>
@@ -307,18 +308,18 @@ const categoryList = [
     </div>
 
     <div class="text-center mt-12">
-      <a href="/shop/" class="inline-block bg-[#0B2046] hover:bg-[#15346B] text-white font-black px-10 py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all">
+      <a href="/shop/" class="inline-block bg-[#0B2046] hover:bg-[#15346B] text-white font-black px-10 py-4 rounded-xl uppercase tracking-[0.2em] text-xs shadow-xl transition-all border border-[#00CCFF]/30">
         Explore Full Catalog &rarr;
       </a>
     </div>
   </section>
 
   <!-- Tagline Anchor Strip -->
-  <div class="bg-[#0B2046] py-12 text-center border-t-4 border-[#E4A025] relative overflow-hidden">
+  <div class="bg-[#0B2046] py-12 text-center border-t-4 border-[#00CCFF] relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4">
-      <p class="text-[#E4A025] font-black text-xs uppercase tracking-[0.3em] mb-2">Our Promise to Every Business</p>
+      <p class="text-[#00CCFF] font-black text-xs uppercase tracking-[0.3em] mb-2">Our Promise to Every Business</p>
       <p class="text-white text-3xl sm:text-5xl font-black uppercase tracking-tight">TRUST EVERY PRINT</p>
-      <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Nairobi, KTDA PLAZA â€¢ Phone: 0185176133</p>
+      <p class="text-slate-300 text-xs font-bold uppercase tracking-widest mt-2">Latema Road, 00400 • Phone: 0722 694443 / +254 722 694443 • info@paremagencies.co.ke</p>
     </div>
   </div>
 

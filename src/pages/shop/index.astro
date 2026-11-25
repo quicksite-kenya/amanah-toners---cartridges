@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -8,22 +8,23 @@ import { getImageDimensions } from '../../data/products';
 
 export const prerender = false;
 
-const allProducts = await getAllProducts();
+const allProducts = getAllProducts();
 const brands = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.brand)))];
 const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.category)))];
 ---
 
 <Layout 
-  title="Shop Premium Toners & Cartridges â€” Amanah Nairobi" 
-  description="Browse 100% genuine HP, Canon, Kyocera, and Konica Minolta toner cartridges, ink bottles, and printers at Amanah in Nairobi, Kenya."
+  title="Shop Premium Toners & Cartridges — Parem Toners Nairobi" 
+  description="Browse 100% genuine HP, Canon, Kyocera, and Konica Minolta toner cartridges, ink bottles, and printers at Parem Toners in Nairobi, Kenya."
 >
   <Header slot="header" />
 
   <!-- Shop Hero Banner -->
   <div class="bg-[#0B2046] py-16 text-white relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#E4A025]"></div>
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-[#00CCFF]"></div>
+    <div class="absolute -top-24 right-0 w-96 h-96 bg-[#00CCFF]/15 rounded-full blur-3xl pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-      <span class="text-[#E4A025] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">100% Genuine Certified</span>
+      <span class="text-[#00CCFF] font-black text-xs tracking-[0.3em] uppercase mb-3 inline-block">100% Genuine Certified</span>
       <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Complete Shop Catalog</h1>
       <p class="text-slate-300 max-w-2xl mx-auto text-sm uppercase tracking-widest font-bold">
         Certified original toner cartridges, refill ink sets, office printers, and maintenance consumables.
@@ -38,45 +39,45 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
     ]} />
 
     <!-- Filter & Search Console -->
-    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 mb-12 space-y-6">
+    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-[#BAE6FD] mb-12 space-y-6">
       <div class="flex flex-col lg:flex-row gap-6 items-center justify-between">
         <!-- Search Field -->
         <div class="relative w-full lg:w-96 group">
           <label for="search-input" class="sr-only">Search products by model, brand, part number, or compatible printer</label>
           <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg aria-hidden="true" class="h-5 w-5 text-slate-400 group-focus-within:text-[#0B2046] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <svg aria-hidden="true" class="h-5 w-5 text-[#007BA7] group-focus-within:text-[#0B2046] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
           <input
             type="text"
             id="search-input"
             placeholder="SEARCH BY MODEL, BRAND, PART #, PRINTER..."
-            class="bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-6 text-xs font-black tracking-widest w-full focus:outline-none focus:ring-2 focus:ring-[#0B2046] focus:bg-white text-slate-900 placeholder-slate-400 transition-all uppercase"
+            class="bg-[#F0FBFF] border border-[#BAE6FD] rounded-xl py-3 pl-12 pr-6 text-xs font-black tracking-widest w-full focus:outline-none focus:ring-2 focus:ring-[#00CCFF] focus:bg-white text-slate-900 placeholder-slate-400 transition-all uppercase"
           />
         </div>
 
         <!-- Quick Info Tag -->
-        <div class="flex items-center space-x-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+        <div class="flex items-center space-x-2 text-xs font-bold text-slate-600 uppercase tracking-wider">
           <span>Inquiry-Only Pricing</span>
-          <span aria-hidden="true">Â·</span>
-          <span>Nairobi KTDA Plaza</span>
-          <span aria-hidden="true">Â·</span>
-          <span class="text-emerald-600 font-black">All In Stock</span>
+          <span class="text-[#007BA7]" aria-hidden="true">·</span>
+          <span>Latema Road, 00400</span>
+          <span class="text-[#007BA7]" aria-hidden="true">·</span>
+          <span class="text-emerald-700 font-black">All In Stock</span>
         </div>
       </div>
 
       <!-- Segmented Brand Filter Buttons -->
       <div>
-        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Filter by Brand:</p>
+        <p class="text-[10px] font-black uppercase tracking-widest text-[#007BA7] mb-3">Filter by Brand:</p>
         <div class="flex flex-wrap gap-2" id="brand-filters">
           {brands.map((brand) => (
             <button
               type="button"
               data-brand={brand}
               aria-pressed={brand === 'ALL' ? 'true' : 'false'}
-              class={`brand-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+              class={`brand-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer border ${
                 brand === 'ALL'
-                  ? 'bg-[#0B2046] text-[#E4A025] shadow-md'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'bg-[#0B2046] text-[#00CCFF] border-[#00CCFF]/40 shadow-md'
+                  : 'bg-[#F0FBFF] text-[#0B2046] border-[#BAE6FD] hover:bg-[#E0F7FF]'
               }`}
             >
               {brand}
@@ -87,17 +88,17 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
 
       <!-- Segmented Category Filter Buttons -->
       <div>
-        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Filter by Category:</p>
+        <p class="text-[10px] font-black uppercase tracking-widest text-[#007BA7] mb-3">Filter by Category:</p>
         <div class="flex flex-wrap gap-2" id="category-filters">
           {categories.map((cat) => (
             <button
               type="button"
               data-category={cat}
               aria-pressed={cat === 'ALL' ? 'true' : 'false'}
-              class={`cat-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+              class={`cat-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer border ${
                 cat === 'ALL'
-                  ? 'bg-[#0B2046] text-[#E4A025] shadow-md'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'bg-[#0B2046] text-[#00CCFF] border-[#00CCFF]/40 shadow-md'
+                  : 'bg-[#F0FBFF] text-[#0B2046] border-[#BAE6FD] hover:bg-[#E0F7FF]'
               }`}
             >
               {cat}
@@ -115,14 +116,14 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
         const dims = getImageDimensions(product.imageUrl);
         return (
           <div 
-            class="product-card bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col border border-slate-100 group transition-all hover:-translate-y-2 duration-300"
+            class="product-card bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col border border-[#BAE6FD]/80 hover:border-[#00CCFF] group transition-all hover:-translate-y-2 duration-300"
             data-model={product.model.toLowerCase()}
             data-brand={product.brand.toLowerCase()}
             data-category={product.category.toLowerCase()}
             data-part={product.partNumber?.toLowerCase() || ''}
             data-printers={product.compatiblePrinters?.toLowerCase() || ''}
           >
-            <div class="aspect-square bg-slate-50 relative overflow-hidden flex items-center justify-center p-6">
+            <div class="aspect-square bg-[#F0FBFF] relative overflow-hidden flex items-center justify-center p-6">
               <img
                 src={product.imageUrl}
                 alt={product.model}
@@ -133,32 +134,32 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
                 class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
               />
               <div class="absolute top-4 left-4">
-                <span class="bg-[#0B2046] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
+                <span class="bg-[#0B2046] text-[#00CCFF] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md border border-[#00CCFF]/30">
                   {product.brand}
                 </span>
               </div>
             </div>
             <div class="p-6 flex flex-col flex-1">
-              <div class="flex items-center space-x-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <div class="flex items-center space-x-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                 <span>{product.category}</span>
-                <span aria-hidden="true">Â·</span>
-                <span class="text-emerald-600 font-black">In Stock</span>
+                <span aria-hidden="true">·</span>
+                <span class="text-emerald-700 font-black">In Stock</span>
               </div>
               <a href={`/products/${product.slug}/`}>
-                <h3 class="text-base font-black text-[#0B2046] mb-1 leading-snug uppercase hover:text-[#E4A025] transition-colors">
+                <h3 class="text-base font-black text-[#0B2046] mb-1 leading-snug uppercase hover:text-[#007BA7] transition-colors">
                   {product.model}
                 </h3>
               </a>
               {product.partNumber && (
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
                   Part: {product.partNumber}
                 </p>
               )}
-              <p class="text-xs text-slate-500 mb-6 flex-1 line-clamp-2 font-medium leading-relaxed">{product.description}</p>
-              <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 gap-2">
+              <p class="text-xs text-slate-600 mb-6 flex-1 line-clamp-2 font-medium leading-relaxed">{product.description}</p>
+              <div class="flex items-center justify-between mt-auto pt-4 border-t border-[#E6F9FF] gap-2">
                 <a 
                   href={`/products/${product.slug}/`} 
-                  class="bg-slate-100 hover:bg-slate-200 text-[#0B2046] text-xs font-black px-3 py-2.5 rounded-xl transition-all text-center uppercase tracking-wider flex-1"
+                  class="bg-[#E6F9FF] hover:bg-[#CCF3FF] text-[#0B2046] text-xs font-black px-3 py-2.5 rounded-xl transition-all text-center uppercase tracking-wider flex-1 border border-[#00CCFF]/30"
                 >
                   Details
                 </a>
@@ -179,11 +180,11 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
 
     <!-- Empty Results State -->
     <div id="no-results" class="hidden max-w-xl mx-auto py-16 text-center">
-      <div class="bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
-        <svg aria-hidden="true" class="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <div class="bg-white p-10 rounded-3xl shadow-xl border border-[#BAE6FD]">
+        <svg aria-hidden="true" class="w-12 h-12 text-[#007BA7] mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <h2 class="text-lg font-black text-[#0B2046] uppercase mb-2">No matching products found</h2>
-        <p class="text-xs text-slate-500 mb-6 font-medium">Try clearing your filters or contact our customer support team directly at KTDA Plaza.</p>
-        <button type="button" id="reset-filters-btn" class="bg-[#0B2046] text-white text-xs font-black py-3 px-6 rounded-xl uppercase tracking-wider shadow-lg cursor-pointer">
+        <p class="text-xs text-slate-600 mb-6 font-medium">Try clearing your filters or contact our customer support team directly at Latema Road, 00400.</p>
+        <button type="button" id="reset-filters-btn" class="bg-[#0B2046] text-white text-xs font-black py-3 px-6 rounded-xl uppercase tracking-wider shadow-lg cursor-pointer border border-[#00CCFF]/30">
           Reset Filters
         </button>
       </div>
@@ -252,15 +253,18 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
     });
   }
 
+  const activeFilterClasses = ['bg-[#0B2046]', 'text-[#00CCFF]', 'border-[#00CCFF]/40', 'shadow-md'];
+  const inactiveFilterClasses = ['bg-[#F0FBFF]', 'text-[#0B2046]', 'border-[#BAE6FD]', 'hover:bg-[#E0F7FF]'];
+
   brandButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       brandButtons.forEach((b) => {
-        b.classList.remove('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-        b.classList.add('bg-slate-100', 'text-slate-700');
+        b.classList.remove(...activeFilterClasses);
+        b.classList.add(...inactiveFilterClasses);
         b.setAttribute('aria-pressed', 'false');
       });
-      btn.classList.add('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-      btn.classList.remove('bg-slate-100', 'text-slate-700');
+      btn.classList.add(...activeFilterClasses);
+      btn.classList.remove(...inactiveFilterClasses);
       btn.setAttribute('aria-pressed', 'true');
 
       currentBrand = (btn as HTMLElement).dataset.brand || 'ALL';
@@ -271,12 +275,12 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
   catButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       catButtons.forEach((b) => {
-        b.classList.remove('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-        b.classList.add('bg-slate-100', 'text-slate-700');
+        b.classList.remove(...activeFilterClasses);
+        b.classList.add(...inactiveFilterClasses);
         b.setAttribute('aria-pressed', 'false');
       });
-      btn.classList.add('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-      btn.classList.remove('bg-slate-100', 'text-slate-700');
+      btn.classList.add(...activeFilterClasses);
+      btn.classList.remove(...inactiveFilterClasses);
       btn.setAttribute('aria-pressed', 'true');
 
       currentCategory = (btn as HTMLElement).dataset.category || 'ALL';
@@ -293,24 +297,24 @@ const categories = ['ALL', ...Array.from(new Set(allProducts.map((p) => p.catego
 
       brandButtons.forEach((b, idx) => {
         if (idx === 0) {
-          b.classList.add('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-          b.classList.remove('bg-slate-100', 'text-slate-700');
+          b.classList.add(...activeFilterClasses);
+          b.classList.remove(...inactiveFilterClasses);
           b.setAttribute('aria-pressed', 'true');
         } else {
-          b.classList.remove('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-          b.classList.add('bg-slate-100', 'text-slate-700');
+          b.classList.remove(...activeFilterClasses);
+          b.classList.add(...inactiveFilterClasses);
           b.setAttribute('aria-pressed', 'false');
         }
       });
 
       catButtons.forEach((b, idx) => {
         if (idx === 0) {
-          b.classList.add('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-          b.classList.remove('bg-slate-100', 'text-slate-700');
+          b.classList.add(...activeFilterClasses);
+          b.classList.remove(...inactiveFilterClasses);
           b.setAttribute('aria-pressed', 'true');
         } else {
-          b.classList.remove('bg-[#0B2046]', 'text-[#E4A025]', 'shadow-md');
-          b.classList.add('bg-slate-100', 'text-slate-700');
+          b.classList.remove(...activeFilterClasses);
+          b.classList.add(...inactiveFilterClasses);
           b.setAttribute('aria-pressed', 'false');
         }
       });
