@@ -5,7 +5,7 @@ import { isRequestAuthenticated, validateProductPayload } from '../../../lib/aut
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  const products = getAllProducts();
+  const products = await getAllProducts();
   return new Response(JSON.stringify({ products }), {
     status: 200,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const created = createProduct(validated.data);
+  const created = await createProduct(validated.data);
   return new Response(JSON.stringify({ product: created }), {
     status: 201,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },

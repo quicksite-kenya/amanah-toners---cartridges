@@ -29,7 +29,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const id = recordInquiry({
+  const id = await recordInquiry({
     type,
     name,
     phone,

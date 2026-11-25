@@ -31,7 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const password = typeof body.password === 'string' ? body.password : '';
-  const result = claimInitialAdminPassword(password);
+  const result = await claimInitialAdminPassword(password);
   if (!result.ok) {
     recordFailedLoginAttempt(clientKey);
     const status = result.error?.includes('already') ? 403 : 400;

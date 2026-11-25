@@ -33,7 +33,7 @@ const brandDescriptions: Record<string, { name: string; subtitle: string; narrat
   }
 };
 
-const { brand: dbBrand, products } = getProductsByBrandSlug(slug);
+const { brand: dbBrand, products } = await getProductsByBrandSlug(slug);
 const knownInfo = brandDescriptions[slug];
 const brand = dbBrand || knownInfo?.name || '';
 

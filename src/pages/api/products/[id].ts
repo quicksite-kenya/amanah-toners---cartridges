@@ -38,7 +38,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const updated = updateProduct(id, validated.data);
+  const updated = await updateProduct(id, validated.data);
   if (!updated) {
     return new Response(JSON.stringify({ error: 'Product not found.' }), {
       status: 404,
@@ -68,7 +68,7 @@ export const DELETE: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const deleted = deleteProduct(id);
+  const deleted = await deleteProduct(id);
   if (!deleted) {
     return new Response(JSON.stringify({ error: 'Product not found.' }), {
       status: 404,

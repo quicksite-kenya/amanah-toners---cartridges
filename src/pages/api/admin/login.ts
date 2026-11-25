@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  if (!isAdminConfigured()) {
+  if (!(await isAdminConfigured())) {
     return new Response(
       JSON.stringify({ error: 'Admin access has not been initialized yet.', needsSetup: true }),
       { status: 409, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } }
@@ -39,7 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const password = typeof body.password === 'string' ? body.password : '';
-  if (!verifyAdminCredentials(password)) {
+  if (!(await verifyAdminCredentials(password))) {
     recordFailedLoginAttempt(clientKey);
     return new Response(JSON.stringify({ error: 'Incorrect admin password.' }), {
       status: 401,

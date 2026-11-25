@@ -5,7 +5,7 @@ export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
   const envConfigured = Boolean(process.env.ADMIN_PASSCODE?.trim());
-  const needsSetup = !isAdminConfigured();
+  const needsSetup = !(await isAdminConfigured());
   const authenticated = isRequestAuthenticated(request);
 
   return new Response(

@@ -9,13 +9,13 @@ import { getImageDimensions } from '../../data/products';
 export const prerender = false;
 
 const slug = Astro.params.slug || '';
-const product = getProductBySlug(slug);
+const product = await getProductBySlug(slug);
 
 if (!product) {
   return new Response('Product not found', { status: 404 });
 }
 
-const relatedProducts = getAllProducts()
+const relatedProducts = (await getAllProducts())
   .filter((p) => p.brand === product.brand && p.id !== product.id)
   .slice(0, 4);
 

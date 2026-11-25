@@ -37,7 +37,7 @@ const categoryDetails: Record<string, { category: string; title: string; subtitl
   }
 };
 
-const { category: dbCategory, products } = getProductsByCategorySlug(slug);
+const { category: dbCategory, products } = await getProductsByCategorySlug(slug);
 const knownDetails = categoryDetails[slug];
 const category = dbCategory || knownDetails?.category || '';
 
